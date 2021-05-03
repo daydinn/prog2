@@ -1,33 +1,35 @@
 package valueObjects;
+import java.util.*;
 
 public class Item {
 
-private String bezeichnung;
-private int nummer;
-private double preis;
-private int bestand;
-private int mindestBestand;
+private String name;
+private int number;
+private double price;
+private int stock;
+private int minimumstock;
 	
 	
-public Item(String bezeichnung, int nummer, double preis, int bestand,int mindestBestand) {
-this.nummer = nummer;
-this.bezeichnung = bezeichnung;
-this.preis = preis;
-this.bestand = bestand;
-this.mindestBestand = mindestBestand;
+public Item(String name, int number, double price, int stock,int minimumstock) {
+this.name = name;
+this.number = number;
+
+this.price = price;
+this.stock = stock;
+this.minimumstock = minimumstock;
 }
 
 
 
 
 public String toString() {
-return("Name: "+bezeichnung + "Nummer: "+nummer +"Preis: "+preis+"Bestand: "+ bestand);
+return("Name: "+name + "Nummer: "+number +"Preis: "+price+"Bestand: "+ stock);
 }
 public boolean equals(Object anotherItem) {
 
 if(anotherItem instanceof Item) {
-return(this.nummer == ((Item) anotherItem).nummer)
-		&& (this.bezeichnung.equals(((Item) anotherItem).bezeichnung));
+return(this.number == ((Item) anotherItem).number)
+		&& (this.name.equals(((Item) anotherItem).name));
 }
 else {
 return false;
@@ -36,11 +38,81 @@ return false;
 
 
 public boolean verfuegbar(Item i) {
-if(i.getBestand()< 0)	{
+if(i.getStock()< 0)	{
 return false;	
 }else {
 return true;	
 }
+}
+
+
+
+
+public String getName() {
+	return name;
+}
+
+
+
+
+public void setName(String name) {
+	this.name = name;
+}
+
+
+
+
+public int getNumber() {
+	return number;
+}
+
+
+
+
+public void setNumber(int number) {
+	this.number = number;
+}
+
+
+
+
+public double getPrice() {
+	return price;
+}
+
+
+
+
+public void setPrice(double price) {
+	this.price = price;
+}
+
+
+
+
+public int getStock() {
+	return stock;
+}
+
+
+
+
+public void setStock(int stock) {
+	this.stock = stock;
+}
+
+
+
+
+public int getMinimumstock() {
+	return minimumstock;
+}
+
+
+
+
+public void setMinimumstock(int minimumstock) {
+	this.minimumstock = minimumstock;
 }
 
 
@@ -53,58 +125,6 @@ return true;
 
 
 //getter / setter Methoden
-
-public String getBezeichnung() {
-	return bezeichnung;
-}
-
-
-public void setBezeichnung(String bezeichnung) {
-	this.bezeichnung = bezeichnung;
-}
-
-
-public int getNummer() {
-	return nummer;
-}
-
-
-public void setNummer(int nummer) {
-	this.nummer = nummer;
-}
-
-
-public double getPreis() {
-	return preis;
-}
-
-
-public void setPreis(double preis) {
-	this.preis = preis;
-}
-
-
-public int getBestand() {
-	return bestand;
-}
-
-
-public void setBestand(int bestand) {
-	this.bestand = bestand;
-}
-
-
-public int getMindestBestand() {
-	return mindestBestand;
-}
-
-
-public void setMindestBestand(int mindestBestand) {
-	this.mindestBestand = mindestBestand;
-}
-
-
-
 
 
 

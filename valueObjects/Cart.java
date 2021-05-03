@@ -5,14 +5,16 @@ public class Cart {
 
 
  
-private List<Item> warenkorbliste = new ArrayList<Item>();
+private List<Item> cartlist = new ArrayList<Item>();
 
-private List<Item> liste;
+private List<Item> list;
 
-public Cart (List<Item>liste) {
-this.liste =liste;
+public Cart (List<Item>list) {
+this.list =list;
 }
 
-
+public void addItem(int number, int stock) {
+	
+}
 
 }
