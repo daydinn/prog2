@@ -1,5 +1,5 @@
 /*
-* Abstrakte Klasse für die Subklassen Mitarbeiter und Kunde
+* Abstrakte Klasse fï¿½r die Subklassen Mitarbeiter und Kunde
 */
 
 public abstract class Benutzer 
@@ -11,10 +11,10 @@ public abstract class Benutzer
 	int nummer;
 	
 	public Benutzer(String Name, String Adresse, String Passwort, int Nummer) {
-		this.name = name;
-		this.adresse = adresse;
-		this.passwort = passwort;
-		this.nummer = nummer;
+		this.name = Name;
+		this.adresse = Adresse;
+		this.passwort = Passwort;
+		this.nummer = Nummer;
 }
 
 	public String getName() {
@@ -57,6 +57,6 @@ public abstract class Benutzer
 
 
 
-	}
+}
 	
 
