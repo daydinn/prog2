@@ -21,6 +21,45 @@ this.iList =iList;
 
 
 
+
+
+/*
+ * 
+ * gibt den Warenkorb in der Console aus
+ */
+
+public void anzeigen() { // Car ausgeben
+
+for(tempItem i : cartList) {
+System.out.println(i);
+}
+}
+
+
+//Fügt einen Artikel den ck hinzu. Es wird geprüft ob ein Artikel bereits im Warenkorb ist, ist jedoch noch fehlerhaft
+
+public void addItem(int iNumber, int iAmount) { //Item  dem Cart hinzufügen
+Iterator<Item> iter = this.iList.iterator();
+tempItem t;
+while(iter.hasNext()) {
+Item i = iter.next();
+if(i.getNumber()==iNumber) {
+if(cartList.contains(new tempItem(i,iAmount))) {  //prüfen ob der Item bereits im Cart ist(fehlerhaft)
+t = cartList.get(cartList.indexOf(i));  //get gibt ein objekt aus einer Liste zurück, indexof liefert die stelle in einer Liste von einem Objekt
+System.out.println("it already exists"); //nur zum testen
+}else{
+if(i.getStock()>=iAmount) {
+cartList.add(new tempItem(i,iAmount));
+System.out.println("it doenst exist yet"); //zum testen
+}else{
+System.out.println("There are not enough items in stock");	
+}
+}
+}
+}
+}
+
+
 //löscht einen Item aus dem Cart, je nach dem wie groß die Anzahl ist
 
 public void delItem(int iNumber, int iAmount) { //Item aus dem Warenkorb entfernen
@@ -45,17 +84,28 @@ System.out.println("This Item is not in the shopping cart");
 }
 }
 
-/*
- * 
- * gibt den Warenkorb in der Console aus
- */
 
-public void anzeigen() { // Car ausgeben
 
-for(tempItem i : cartList) {
-System.out.println(i);
-}
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
  * 
  * 
