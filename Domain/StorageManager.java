@@ -1,6 +1,8 @@
-package valueObjects;
+package Domain;
 
 import java.util.*;
+
+import valueObjects.Item;
 
 public class StorageManager {
 

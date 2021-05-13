@@ -1,6 +1,8 @@
 package valueObjects;
 import java.util.*;
 
+import Domain.StorageManager;
+
 public class Storage {
 	
 	
