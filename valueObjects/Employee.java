@@ -10,6 +10,9 @@ private int employeeNr;
 
 
 
+
+
+
 public Employee(String firstname, String lastname,String password,int employeeNr ) {
 super(firstname,lastname,password);
 this.employeeNr = employeeNr;
@@ -25,6 +28,21 @@ return(" Number: "+ employeeNr +"\n"+ " Passwort: "+ password+ "\n"+ " Firstname
 }
 
 
+
+//Getter und Setter
+public int getEmployeeNr() {
+	return employeeNr;
+}
+
+
+
+public void setEmployeeNr(int employeeNr) {
+	this.employeeNr = employeeNr;
+}
+
+
+
+//Main
 
     public static void main(String[] args){
         Customer admin1 = new Customer("Admin","Adminson","root",420,"Olympos Greece");
