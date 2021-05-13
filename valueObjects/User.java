@@ -4,14 +4,29 @@ public abstract class User {
 
 String firstname;
 String lastname;
-int  number;
-String passwort;
-String adresse;
+
+String password;
 
 
 
 
-public void 
+
+public User(String firstname, String lastname, String password) {
+this.firstname = firstname;
+this.lastname = lastname;
+this.password = password;
+
+	
+}
+
+
+
+
+public void registerCustomer() {
+	
+	
+	
+}
 
 
 

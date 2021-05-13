@@ -3,35 +3,23 @@ package valueObjects;
 public class Customer extends User {
 
 private int customerNr;
-private String username;
-private String passwort;
-private String firstname;
-private String lastname;
-private String city;
-private String zipcode;
-private String street;	
+private String adress;
+
 	
 
 
-public Customer(String username,String passwort,String firstname,String lastname,String city,String zipcode,String street,int customerNr) {
+public Customer(String firstname, String lastname,String password,int customerNr,String adress ) {
+super(firstname,lastname,password);
 this.customerNr = customerNr;
-this.username = username;
-this.passwort= passwort;
-this.firstname= firstname;
-this.lastname = lastname;
-this.city = city;
-this.zipcode = zipcode;
-this.street = street;
-
-	
+this.adress = adress;
 }
 
 public String toString() {
-return(" Username: "+ username +"\n"+ " Passwort: "+ passwort+ "\n"+ " Firstname: " +firstname+ "  Lastname: " +lastname + "\n" +"\n"+ " City: " +city+ " | Zip-Code: "+zipcode+ " | Street: "+ street+ " | Customernumber: "+customerNr);	
+return(" Number: "+ customerNr +"\n"+ " Passwort: "+ password+ "\n"+ " Firstname: " +firstname+ "  Lastname: " +lastname + "\n" +"\n"+ " Adress: " +adress );	
 }
 
 public static void main(String[] args){
-    Customer test1 = new Customer("funboy","1234","Someone","Noone","Nowhere","420420","Sesame",777);
+    Customer test1 = new Customer("Alan","Ericson","secret",55555,"Sesamstreet 30000 Newyork");
     System.out.println(test1.toString());
 }
 }
