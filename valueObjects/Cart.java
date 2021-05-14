@@ -28,12 +28,19 @@ this.iList =iList;
  * gibt den Warenkorb in der Console aus
  */
 
-public void anzeigen() { // Car ausgeben
+public void showCart() { // Car ausgeben
 
 for(tempItem i : cartList) {
 System.out.println(i);
 }
 }
+
+//gibt die aktuelle Warenkorbliste aus
+
+
+
+
+
 
 
 //Fügt einen Artikel den ck hinzu. Es wird geprüft ob ein Artikel bereits im Warenkorb ist, ist jedoch noch fehlerhaft
