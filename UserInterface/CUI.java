@@ -10,16 +10,16 @@ public class CUI {
 
 	public static void main(String args[]) {
 		Scanner inputScanner = new Scanner(System.in);
-		println("Willkommen!");
+		println("Wellcome!");
 		while (true) {
 			blankSpace(2);
 
-			println("Was darf es sein?");
+			println("What can I do?");
 			blankSpace(1);
 			println("-------------------------");
-			println("Einloggen: l");
-			println("Suchen: s");
-			println("Schliessen: x");
+			println("Log in: l");
+			println("Search: s");
+			println("Close: x");
 			println("-------------------------");
 
 			blankSpace(1);
@@ -28,17 +28,17 @@ public class CUI {
 
 			switch (input) {
 				case "l":
-					println("Serverproblem, bitte versuchen Sie es spaeter nochmal.");
+					println("Server problem, please try again later.");
 					break;
 				case "s":
-					println("Fehler 404: Gesuchtes Produkt nicht gefunden.");
+					println("Error 404: product could not be found.");
 					break;
 				case "x":
-					println("Auf Wiedersehen!");
+					println("Bye!!");
 					System.exit(0);
 					break;
 				default:
-					println("Ungueltige Eingabe. Bitte erneut versuchen.");
+					println("Invalid Input. Please try again.");
 					break;
 
 			}
