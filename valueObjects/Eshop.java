@@ -17,8 +17,7 @@ public class Eshop {
 
 private static Storage storage;
 private static UserManagement userManagement;
-
- private static Changelog changelog;
+private static Changelog changelog;
 private static Cart cart;
 private static Item item;
 static List<String> log = new ArrayList<String>();
