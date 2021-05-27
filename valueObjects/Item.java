@@ -17,6 +17,8 @@ this.number = number;
 this.price = price;
 this.stock = stock;
 this.minimumstock = minimumstock;
+
+//massengut
 }
 
 

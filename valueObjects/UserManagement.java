@@ -5,8 +5,7 @@ import java.util.*;
 public class UserManagement {     //Benutzerverwaltung &Buero
 	
 	
-// Beschreibung : Ist die Schnittstelle zwischen der GUI/CUI und dem UserManager. Übergibt die Datei in der Mitarbeiter stehen
-	
+// Beschreibung : Ist die Schnittstelle zwischen der GUI/CUI und dem UserManager
 	
 private UserManager userManager;
 
