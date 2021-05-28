@@ -18,7 +18,7 @@ public boolean close();
 
 public valueObjects.Item loadArtikel() throws IOException;
 
-public boolean saveArtikel(valueObjects.Item i) throws IOException ;
+public boolean saveItem(valueObjects.Item i) throws IOException ;
 
 public valueObjects.Employee loadEmployee() throws IOException;
 

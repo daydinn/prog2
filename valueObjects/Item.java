@@ -8,24 +8,24 @@ private int number;
 private double price;
 private int stock;
 private int minimumstock;
+private int bulk; //massengut
 	
 	
-public Item(String name, int number, double price, int stock,int minimumstock) {
+public Item(String name, int number, double price, int stock,int minimumstock,int bulk) {
 this.name = name;
 this.number = number;
 
 this.price = price;
 this.stock = stock;
 this.minimumstock = minimumstock;
-
-//massengut
+this.bulk=bulk;
 }
 
 
 
 
 public String toString() {
-return("Name: "+name + "Nummer: "+number +"Preis: "+price+"Bestand: "+ stock);
+return("Name: "+name + "Nummer: "+number +"Preis: "+price+"Bestand: "+ stock+"Massengut"+bulk);
 }
 public boolean equals(Object anotherItem) {
 
@@ -118,7 +118,13 @@ public void setMinimumstock(int minimumstock) {
 }
 
 
+public int getBulk() {
+return bulk;
+}
 
+public void setBulk(int newbulk) {
+this.bulk = newbulk;
+}
 
 
 

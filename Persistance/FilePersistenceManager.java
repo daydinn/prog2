@@ -19,15 +19,15 @@ private PrintWriter writer = null;
 
 
 //erzeugt einen Buffered Reader, der etwas einlesen kann aus einer Datei
-public void openForReading(String datei) throws IOException {
-reader = new BufferedReader(new FileReader(datei));
+public void openForReading(String file) throws IOException {
+reader = new BufferedReader(new FileReader(file));
 }
 
 
 //erzeugt einen BufferedWritter der etwas in eine Datei schreiben kann
 @Override
-public void openForWriting(String datei) throws IOException {
-writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
+public void openForWriting(String file) throws IOException {
+writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 }
 
 //Schließt den buffered Reader un writter
@@ -49,7 +49,9 @@ return true;
 
 
 
-//funktion zum laden des Items
+
+
+//funktion zum laden des Items 
 @Override
 public Item loadArtikel() throws IOException {
 //einlesen des Namens
@@ -90,8 +92,6 @@ int  stock = Integer.parseInt(stockString);
 
 //Einlesen vom mindestBestand
 
-
-
 String minimumstockString ="";
 
 try {
@@ -101,55 +101,175 @@ catch(IOException e) {
 e.printStackTrace();
 }
 int minimumstock = Integer.parseInt(minimumstockString);
+//Einlesen vom massengut
 
-//fehlt massengut vielleicht
+String bulkString = "";
+try {
+bulkString = readRow();
+}
+catch(IOException e) {
+e.printStackTrace();
 
+}
+int bulk = Integer.parseInt(bulkString);
 
-return new Item(name,number,price,stock,minimumstock);
+return new Item(name,number,price,stock,minimumstock,bulk);
 
 }
 @Override
 
 
 
-
-public boolean saveArtikel(Item i) throws IOException {
-	// TODO Auto-generated method stub
-	return false;
-}
-@Override
+// funktionen zum ladern der Mitarbeiter
 public Employee loadEmployee() throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+//einlesen von Firstname
+String firstname = readRow();
+if(firstname == null) {
+return null;
 }
-@Override
-public boolean saveEmployee(Employee e) throws IOException {
-	// TODO Auto-generated method stub
-	return false;
+//einlesen des Secondnames
+String lastname = readRow();
+if(lastname == null) {
+return null;
 }
-@Override
+
+
+
+//einlesen des passworts
+String password = readRow();
+if(password == null) {
+return null;
+}
+//einlesen der MitarbeiterNr
+
+String employeeNrString = "";
+try {
+employeeNrString = readRow();
+
+}catch(IOException e) {
+e.printStackTrace();
+}
+int employeeNr = Integer.parseInt(employeeNrString);
+
+return new Employee(firstname,lastname,password,employeeNr);
+}
+
+//funktionen zum laden der Kunden
+
+
 public Customer loadCustomer() throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+//einlesen des Firstnames
+
+String firstname = readRow();
+if(firstname == null) {
+return null;
 }
-@Override
+//einlesen des lastnames
+String lastname = readRow();
+if(lastname == null) {
+return null;
+}
+
+//einlesen des passworts
+String password = readRow();
+if(password == null) {
+return null;
+}
+
+//einlesen der Adresse
+String adress = readRow();
+if(adress == null) {
+return null;
+}
+
+//einlesen der KundenNr
+
+String customerNrString = "";
+try {
+customerNrString = readRow();
+
+}catch(IOException e) {
+e.printStackTrace();
+}
+int customerNr = Integer.parseInt(customerNrString);
+
+return new Customer(firstname,lastname,password,customerNr,adress);
+}
+
+//funktionen zum speichern des Items
+
+public boolean saveItem(Item i) throws IOException {
+writeRow(i.getName());
+writeRow(i.getNumber()+"");
+writeRow(i.getPrice()+"");
+writeRow(i.getStock()+"");
+writeRow(i.getMinimumstock()+"");
+writeRow(i.getBulk()+"");
+return true;
+}
+
+//funktionen zum speichern der Mitarbeiter
+
+public boolean saveEmployee(Employee e)  throws IOException {
+writeRow(e.getFirstname());
+writeRow(e.getLastname());
+writeRow(e.getEmployeeNr()+"");  // "" weil writeRow ne String zurückgibt
+
+return true;
+}
+
+
+//funktion zum speichern der Kunden
+
 public boolean saveCustomer(Customer c) throws IOException {
-	// TODO Auto-generated method stub
-	return false;
+writeRow(c.getFirstname());
+writeRow(c.getLastname());
+writeRow(c.getPassword()+"");
+writeRow(c.getCustomerNr()+"");
+writeRow(c.getAdress());
+return true;
 }
-@Override
-public String readLog() throws IOException {
-	// TODO Auto-generated method stub
-	return null;
-}
-@Override
+
+
+//funktiom zum speichern vom Log
+
 public boolean saveLog(String log) throws IOException {
-	// TODO Auto-generated method stub
-	return false;
+//hier fehlz noch der inhalt
+writeRow(log);
+return true;
 }
+
+//funktion zum einlesen des logs
+
+public String readLog() {
+
+String input ="";
+
+try {
+input = readRow();
+
+}catch (IOException e) {
+e.printStackTrace();
+}
+return input;
+
+}
+
+
+
+
+
+
+
+
+
+//die fehlen noch
+
+
 @Override
 public Changelog loadChangelogNew() throws IOException {
-	// TODO Auto-generated method stub
+	//einlesen des Usernames
+	
 	return null;
 }
 @Override
@@ -158,17 +278,24 @@ public boolean saveChangelog(Changelog c) throws IOException {
 	return false;
 }
 		
-//erzeugt einen Buffered Reder der etwas einlesen kann aus einer Datei
+
 		 
 
 
-
+//ließt eine Zeile in einer Text Datei und gibt diese Zurück
 private String readRow() throws IOException{
 if(reader != null) {
 return reader.readLine();
 }
 else {
 	return "";
+}
+}
+//schreibt eine Zeile in einer TextDatei
+
+private void writeRow(String data) {
+if(writer != null) {
+writer.println(data);
 }
 }
 

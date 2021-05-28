@@ -43,8 +43,8 @@ return storageManager.searchItemByNumber(number);
 
 //erstellt einen neuen Item und lässt diesen vom Storagemanager in den Itemstock einfügen
 
-public Item addanItem(String name,int number,double price,int stock,int minimumstock) {
-Item i = new Item(name,number,price,stock,minimumstock);
+public Item addanItem(String name,int number,double price,int stock,int minimumstock,int bulk) {
+Item i = new Item(name,number,price,stock,minimumstock,bulk);
 storageManager.addItem(i);
 return i;
 }
