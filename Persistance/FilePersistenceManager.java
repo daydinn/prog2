@@ -53,7 +53,7 @@ return true;
 
 //funktion zum laden des Items 
 @Override
-public Item loadArtikel() throws IOException {
+public Item loadItem() throws IOException {
 //einlesen des Namens
 String name= readRow();
 if(name == null) {
@@ -263,19 +263,88 @@ return input;
 
 
 
-//die fehlen noch
 
+//läd den Changelog, liest Zeile für Zeile aus und baut dadurch den changelog auf
 
 @Override
 public Changelog loadChangelogNew() throws IOException {
-	//einlesen des Usernames
-	
+	//einlesen des Firstnamens
+	String firstname = readRow();
+	if(firstname == null) {
 	return null;
+	}
+	//einlesen des Nachnamens
+	String lastname = readRow();
+	if(lastname == null) {
+	return null;
+	}
+	//einlesen des Passworts
+	String password = readRow();
+	if(password == null) {
+	return null;
+	}
+	
+	//einlesen der Adresse
+	String adress =readRow();
+	if(adress == null) {
+	return null;
+	}
+	
+	// einlesen der Nr
+	String nrString = readRow();
+	int nr = Integer.parseInt(nrString);
+	
+	//einlesen der Nachricht
+	String message = readRow();
+	if(message == null) {
+	return null;
+	}
+	
+	//einelsen des Typs
+	String typString = readRow();
+	boolean typ = Boolean.parseBoolean(typString);
+	
+	//einlesen der Zeit
+	String time = readRow();
+	if(time == null) {
+	return null;
+	}
+	
+	if(typ) {
+	Employee e = new Employee(firstname,lastname,password,nr);
+	return new Changelog(e,message,typ,time);
+	}
+	else {
+	Customer c = new Customer(firstname,lastname,password,nr,adress);
+	return new Changelog(c,message,typ,time);
+	}
+	
 }
+//speichert Zeile für Zeile den Changelog
 @Override
 public boolean saveChangelog(Changelog c) throws IOException {
-	// TODO Auto-generated method stub
-	return false;
+if(c.getTyp())	{
+writeRow(c.getEmployee().getFirstname());
+writeRow(c.getEmployee().getLastname());
+writeRow(c.getEmployee().getPassword());
+writeRow(c.getEmployee().getEmployeeNr()+"");
+writeRow(c.getMessage());
+System.out.println(c.getMessage());
+writeRow(c.getTyp()+"");
+writeRow(c.getTime()+"");
+
+}else {
+writeRow(c.getCustomer().getFirstname());
+writeRow(c.getCustomer().getLastname());
+writeRow(c.getCustomer().getPassword());
+writeRow(c.getCustomer().getCustomerNr()+"");
+writeRow(c.getCustomer().getAdress());
+writeRow(c.getMessage());
+System.out.println(c.getMessage()+ "With customer");
+writeRow(c.getTyp()+"");
+writeRow(c.getTime());
+}
+return true;
 }
 		
 

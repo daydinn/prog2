@@ -1,28 +1,83 @@
 package Domain;
+import java.io.IOException;
 import java.util.*;
+
+import Persistance.*;
 import valueObjects.*;
+
 
 
 public class UserManager {
 
 private List<Employee> employeeStock = new ArrayList <Employee>();
 private List<Customer> customerStock = new ArrayList<Customer>();
+private PersistenceManager pm = new FilePersistenceManager();
+
+
+
+//list die Datei aus in der die Mitarbeiter stehen
+
+
+public void readMitarbeiter(String data) throws IOException{
+pm.openForReading(data);
+Employee e;
+
+do {
+e = pm.loadEmployee();
+if(e != null) {
+addEmployee(e);
+}
+}while(e != null);
+
+	
+}
+//list die Datei aus in der die Kunden stehen
+
+public void readCustomer(String data) throws IOException{
+pm.openForReading(data);
+Customer c;
+
+do {
+c = pm.loadCustomer();
+if(c != null) {
+addCustomer(c);
+}
+}while(c != null);
+}
+
+
+
+// schreibt die Mitarbeiter in die Datei
+public void writeEmployee(String data) throws IOException{
+pm.openForWriting(data);
+
+for( Employee e : employeeStock) {
+pm.saveEmployee(e);
+}
+pm.close();	
+}
+
+//schreibt die Kunden in die Datei
+public void writeCustomer(String data) throws IOException{
+pm.openForWriting(data);
+
+for( Customer c : customerStock) {
+pm.saveCustomer(c);
+}
+pm.close();	
+}
 
 
 
 
-
-
-
-
-
-public void add(Employee e) {
+//füge einen Mitarbeiter hinzu
+public void addEmployee(Employee e) {
 	
 employeeStock.add(e);
 	
 }
-//füge einen Mitarbeiter hinzu
-public void add(Customer c) {
+//füge einen Kunden hinzu
+public void addCustomer(Customer c) {
 	
 customerStock.add(c);	
 	

@@ -17,32 +17,6 @@ this.iList =iList;
 
 
 
-
-
-
-
-
-
-/*
- * 
- * gibt den Warenkorb in der Console aus
- */
-
-public void showCart() { // Car ausgeben
-
-for(tempItem i : cartList) {
-System.out.println(i);
-}
-}
-
-//gibt die aktuelle Warenkorbliste aus
-
-
-
-
-
-
-
 //Fügt einen Artikel den ck hinzu. Es wird geprüft ob ein Artikel bereits im Warenkorb ist, ist jedoch noch fehlerhaft
 
 public void addItem(int iNumber, int iAmount) { //Item  dem Cart hinzufügen
@@ -96,31 +70,28 @@ System.out.println("This Item is not in the shopping cart");
 
 
 
+//gibt den Warenkorb in der Console aus
+
+
+public void showCart() { 
+
+for(tempItem i : cartList) {
+System.out.println(i);
+}
+}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * 
- * 
- * Gibt die aktuelle Cartlist aus
- */
+//Gibt die aktuelle Cartlist aus
+ 
 public List<tempItem> getCart(){
 return cartList;
 }
+
+
+//durchsucht den Warenkorb nach einem Namen
 
 public List<tempItem> searchByName(String name){
 List<tempItem> searchResult = new ArrayList<tempItem>();
@@ -135,7 +106,19 @@ searchResult.add(i);
 return searchResult;	
 }
 
-/*Leer den Cart  */
+
+
+
+
+
+
+
+
+
+
+
+
+//Leer den Cart  */
 
 public void leeren() {
 cartList.removeAll(cartList);

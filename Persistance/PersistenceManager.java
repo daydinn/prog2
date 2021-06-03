@@ -16,7 +16,7 @@ public void openForWriting(String file) throws IOException;
 public boolean close();
 		
 
-public valueObjects.Item loadArtikel() throws IOException;
+public valueObjects.Item loadItem() throws IOException;
 
 public boolean saveItem(valueObjects.Item i) throws IOException ;
 
