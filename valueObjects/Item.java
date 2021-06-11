@@ -20,7 +20,15 @@ this.stock = stock;
 this.minimumstock = minimumstock;
 this.bulk=bulk;
 }
+public Item(String name, int number, double price, int stock,int minimumstock) { //without bulk ??
+this.name = name;
+this.number = number;
 
+this.price = price;
+this.stock = stock;
+this.minimumstock = minimumstock;
+
+}
 
 
 

@@ -13,8 +13,10 @@ private List<Changelog> changelog = new ArrayList<Changelog>();
 private PersistenceManager pm = new FilePersistenceManager();
 
 
+//lies die Daten für den Changelog ein
+
 public void readData(String data) throws IOException{
-pm.openForReading(data+"L.txt"); // ?
+pm.openForReading(data+"S.txt"); // ?
 Changelog c;
 
 do {
@@ -26,15 +28,15 @@ addChangelog(c);
 
 
 }
-
-public void writeDate(String data) throws IOException {
-pm.openForWriting(data+"L.txt");
+//Shcreibt den Changelog in die Datei. Der PersistenzManager übernimmt das schreiben
+public void writeData(String data) throws IOException {
+pm.openForWriting(data+"S.txt");
 for(Changelog c : changelog) {
 pm.saveChangelog(c);
 }
 pm.close();
 }
-
+//fügt einen changelog ein
 public void addChangelog(Changelog c) {
 changelog.add(c);
 System.out.println(c);}

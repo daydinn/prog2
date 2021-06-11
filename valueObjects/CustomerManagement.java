@@ -16,7 +16,7 @@ private UserManager userManager;
 public CustomerManagement(String data) throws IOException{
 this.data = data;
 userManager = new UserManager();
-userManager.readCustomer(data+"L.txt");
+userManager.readCustomer(data+"S.txt");
 
 }
 
@@ -49,7 +49,7 @@ userManager.cdelete(number);
 //Lässt den personenManager den Kundenbestand speichern
 
 public void writeCustomer() throws IOException{
-userManager.writeCustomer(data+"L.txt");
+userManager.writeCustomer(data+"S.txt");
 }
 
 

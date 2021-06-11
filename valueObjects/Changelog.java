@@ -1,10 +1,13 @@
 package valueObjects;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+
+import Domain.ChangelogManager;
 
 public class Changelog {
 
@@ -15,7 +18,7 @@ private String message;
 private String strDate;
 private boolean typ; //true :Mitarbeiter | false: Kunde
 private String Time;
-
+private ChangelogManager changelogManager;
 
 
 //Konstruktor um eienen neuen Changelog als Mitarbeiter zu erzeugen
@@ -63,6 +66,18 @@ this.message = message;
 this.typ = typ;
 this.Time = Time;
 }
+
+public void writeData(String data) throws IOException {
+changelogManager.writeData(data);
+}
+
+
+public void readData(String data) throws IOException{
+changelogManager.readData(data);
+
+}
+
+
 
 //toString für das ausgeben von einen Log in der Console
 

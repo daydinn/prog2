@@ -17,7 +17,7 @@ private UserManager usermanager;
 public EmployeeManagement(String data) throws IOException{
 this.data = data;
 usermanager = new UserManager();
-usermanager.readMitarbeiter(data+"L.txt");
+usermanager.readMitarbeiter(data+"S.txt");
 }
 
 //gibt eine Liste mit allen Mitarbeitern zurück
@@ -55,7 +55,7 @@ usermanager.edelete(employeeNr);
 //lässt den userManager in die Mitarbeiterliste speichern
 
 public void writeEmployee() throws IOException{
-usermanager.writeEmployee(data+"L.txt");
+usermanager.writeEmployee(data+"S.txt");
 }
 
 }

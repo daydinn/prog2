@@ -2,7 +2,7 @@ package Domain;
 
 import java.util.*;
 
-import UserInterface.CUI;
+import ui.CUI;
 import valueObjects.Cart;
 import valueObjects.Changelog;
 import valueObjects.Customer;

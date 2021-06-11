@@ -29,14 +29,14 @@ private StorageManager storageManager;
 public Storage(String data) throws IOException{
 this.data = data;
 storageManager = new StorageManager();
-storageManager.readData(data+"L.txt");
+storageManager.readData(data+"S.txt");
 }
 
 
 
 //ruft den Storagemanager auf, welcher den Artikelbestand zurückgibt
 
-public List<Item> showAllItems(){
+public List<Item> getAllItems(){
 return storageManager.getItemStock();
 }
 
@@ -72,7 +72,7 @@ storageManager.delete(number);
 //der Storagemanager schreibt alle Daten in in die TXT datei
 
 public void writeItem() throws IOException{
-storageManager.writeData(data+"L.txt");
+storageManager.writeData(data+"S.txt");
 }
 
 }

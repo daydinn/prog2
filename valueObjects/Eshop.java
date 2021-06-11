@@ -1,7 +1,7 @@
 package valueObjects;
 import java.util.*;
 
-import UserInterface.CUI;
+import ui.CUI;
 import valueObjects.*;
 
 public class Eshop {

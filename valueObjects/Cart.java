@@ -120,7 +120,7 @@ return searchResult;
 
 //Leer den Cart  */
 
-public void leeren() {
+public void remove() {
 cartList.removeAll(cartList);
 
 }
@@ -128,7 +128,7 @@ cartList.removeAll(cartList);
 
 /* um den Cart zu kaufen */
 
-public void kaufen() { // item aus dem Cart kaufen
+public void buy() { // item aus dem Cart kaufen
 for(tempItem t : cartList) { //jeden Item aus dem Warenkorb durchgehen
 if(iList.contains(t.getItem())) { //nachschauen ob die Items aus dem Cart auch in Itemlist sind
 Iterator<Item> iter = this.iList.iterator(); //in der Itemliste nach dem Iten suchen , der in der for schleife ausgewählt ist
