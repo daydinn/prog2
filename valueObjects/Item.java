@@ -1,151 +1,86 @@
-package valueObjects;
-import java.util.*;
+package Valueobjects;
 
 public class Item {
 
-private String name;
-private int number;
-private double price;
-private int stock;
-private int minimumstock;
-private int bulk; //massengut
-	
-	
-public Item(String name, int number, double price, int stock,int minimumstock,int bulk) {
-this.name = name;
-this.number = number;
+  private String name;
+  private int number;
+  private double price;
+  private int stock;
+  private int minimumStock;
+  private int bulk;
 
-this.price = price;
-this.stock = stock;
-this.minimumstock = minimumstock;
-this.bulk=bulk;
-}
-public Item(String name, int number, double price, int stock,int minimumstock) { //without bulk ??
-this.name = name;
-this.number = number;
+  public Item(String name, int number, double price, int stock, int minimumStock, int bulk) {
+    this.number = number;
+    this.name = name;
+    this.price = price;
+    this.stock = stock;
+    this.minimumStock = minimumStock;
+    this.bulk = bulk;
+  }
 
-this.price = price;
-this.stock = stock;
-this.minimumstock = minimumstock;
+  /**
+   *Description: If the inventory of the item is less than 0, the item is classified as "not available" and returns false, otherwise true.
+   * 
+   * 
+   * 
+   */
+  public boolean available(Item i) {
+    if (i.getStock() < 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
-}
+  /**
+   * Description : Compares 2 items, if the other item is an instance of the item, the item number then the numbers are equated,otherwise it gives false.
+   * 
+   */
+  public boolean euqals(Object otherItem) {
+    if (otherItem instanceof Item) {
+      return (this.number == ((Item) otherItem).number) &&
+        (this.name.equals(((Item) otherItem).name));
+    } else {
+      return false;
+    }
 
+  }
 
+  /**
+   * Description: This method specifies how an item should be output as a string in the Consol.
+   */
+  public String toString() {
+    return ("Name: " + name + " | Number: " + number + " | Price: " + price + " | Stock: " + stock + " | Bulk: " + bulk);
+  }
 
-public String toString() {
-return("Name: "+name + "Nummer: "+number +"Preis: "+price+"Bestand: "+ stock+"Massengut"+bulk);
-}
-public boolean equals(Object anotherItem) {
+  //getter und Setter
 
-if(anotherItem instanceof Item) {
-return(this.number == ((Item) anotherItem).number)
-		&& (this.name.equals(((Item) anotherItem).name));
-}
-else {
-return false;
-}
-}
+  public String getName() {
+    return name;
+  }
 
+  public int getNumber() {
+    return number;
+  }
 
-public boolean verfuegbar(Item i) {
-if(i.getStock()< 0)	{
-return false;	
-}else {
-return true;	
-}
-}
+  public double getPrice() {
+    return price;
+  }
 
+  public int getStock() {
+    return stock;
+  }
 
+  public int getminimumStock() {
+    return minimumStock;
+  }
 
+  public int getBulk() {
+    return bulk;
+  }
 
-public String getName() {
-	return name;
-}
-
-
-
-
-public void setName(String name) {
-	this.name = name;
-}
-
-
-
-
-public int getNumber() {
-	return number;
-}
-
-
-
-
-public void setNumber(int number) {
-	this.number = number;
-}
-
-
-
-
-public double getPrice() {
-	return price;
-}
-
-
-
-
-public void setPrice(double price) {
-	this.price = price;
-}
-
-
-
-
-public int getStock() {
-	return stock;
-}
-
-
-
-
-public void setStock(int stock) {
-	this.stock = stock;
-}
-
-
-
-
-public int getMinimumstock() {
-	return minimumstock;
-}
-
-
-
-
-public void setMinimumstock(int minimumstock) {
-	this.minimumstock = minimumstock;
-}
-
-
-public int getBulk() {
-return bulk;
-}
-
-public void setBulk(int newbulk) {
-this.bulk = newbulk;
-}
-
-
-
-
-
-
-
-//getter / setter Methoden
-
-
-
-
+  public void setStock(int newStock) {
+    this.stock = newStock;
+  }
 
 }
-
-

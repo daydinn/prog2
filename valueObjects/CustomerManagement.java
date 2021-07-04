@@ -1,56 +1,86 @@
-package valueObjects;
+package Valueobjects;
 
 import java.io.IOException;
-import java.util.*;
 
-import Domain.*;
+import java.util.List;
 
-public class CustomerManagement{
-	
-//CustomerManagement ist die Schnittstelle zwischen PersonenManager und der CUI/GUI.Er kümmer sich um die kunden
-	
-	
-private String data = "";
-private UserManager userManager;
+import Domain.UserManager;
 
-public CustomerManagement(String data) throws IOException{
-this.data = data;
-userManager = new UserManager();
-userManager.readCustomer(data+"S.txt");
+public class CustomerManagement { //klasse f�r die kunden
 
-}
+  private String datei = "";
+  private UserManager userManager;
 
-//ruft den Personenmanager auf und lässt sich den aktuellen Kundenbestand geben
-public List<Customer> getAllCustomer(){
-return userManager.getCustomerStock();
-}
+  /**
+   * Customermanagement is the connection point  between the person manager and the GUI. He takes care of the customers
+   * @throws IOException
+   */
 
+  public CustomerManagement(String datei) throws IOException {
+    this.datei = datei;
+   userManager = new UserManager();
+   userManager.readCustomers(datei + "-Textfile");
+  }
 
-//übergibt den Personenmanager die Kundennummer, diese gibt eine Liste zurück mit der Person und Nummer
+  /**
+   * Description: calls the user manager, then it writes customers into the file,so it is saved.
+   * @throws IOException
+   */
+  public void writeCustomers() throws IOException {
+    userManager.writeCustomers(datei + "-Textfile");
+  }
 
-public List<Customer> searchByNumber(int nr){
-return userManager.searchCustomerNr(nr);
-}
+  /**
+   * Description: gives the number to the user manager so that the number can be deleted.
+   * @param nummer
+   */
+  public void deleteCustomer(int number) {
+   userManager.cdeleting(number);
+  }
 
-//Erstellt einen Kunden und übergibt diesen zum Personenmanager.Dieser fügt den Kunden zum Bestand hinzu
-public Customer addCustomer(String firstname,String lastname, String password, String adress,int customerNr ) {
-Customer c = new Customer(firstname,lastname,password,customerNr,adress);
-userManager.addCustomer(c);
-return c;
-}
+  /**
+   * Description: gives a  number with which an customer can be searched for
+   * @param nr
+   * @return returns the list of customers with the searched number
+   */
+  public List < Customer > searchByNumber(int nr) {
+    return userManager.searchCustomerNr(nr);
+  }
+  
+  
+  /**
+   * Description: gives a name parameter with which an customer can be searched for
+   * @param name
+   * @return returns the list of customers with the searched name
+   */
+  
+ public List < Customer > searchByName(String name) {
+ return userManager.searchCustomerName(name);
+ }
+  
+  
+  
+  
+  
+  
 
-//übergibt den personenmanger die nummer.Dieser löscht den Kunden mit der Nummer
+  /**
+   * Description: calls the UserManager and it returns a list of all customers
+   * @return the list of customer
+   */
+  public List < Customer > getAllCustomers() {
+    return userManager.getCustomerStock();
+  }
 
-public void deleteCustomer(int number) {
-userManager.cdelete(number);
-
-}
-
-//Lässt den personenManager den Kundenbestand speichern
-
-public void writeCustomer() throws IOException{
-userManager.writeCustomer(data+"S.txt");
-}
-
+  /**
+   * Description: add a new customer with the given parameters and forwards the new employee to the user manager.
+   * 
+   * @return c
+   */
+  public Customer addACustomer(String username, String password, String firstname, String lastname, String adress, int customerNr) {
+    Customer c = new Customer(username, password, firstname, lastname, adress, customerNr);
+    userManager.add(c);
+    return c;
+  }
 
 }

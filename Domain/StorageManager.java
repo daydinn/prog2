@@ -1,100 +1,115 @@
 package Domain;
 
 import java.io.IOException;
+
 import java.util.*;
 
-import Persistance.*;
-import valueObjects.Item;
+import Persistence.FilePersistenceManager;
+import Persistence.PersistenceManager;
+import Valueobjects.Item;
 
 public class StorageManager {
 
+  private List < Item > itemStock = new ArrayList < Item > ();
+  private PersistenceManager pm = new FilePersistenceManager();
 
+  public void readData(String file) throws IOException {
 
+    pm.openForReading(file);
+    Item i;
 
-private List<Item> itemStock = new ArrayList<Item>();
-private PersistenceManager pm = new FilePersistenceManager();
+    do {
+      i = pm.loadItems();
+      if (i != null) {
+        add(i);
+      }
+    } while (i != null);
 
-public void readData(String data) throws IOException{
-pm.openForReading(data);
-Item i;
-do {
-i = pm.loadItem();
-if(i != null) {
-addItem(i);
+  }
 
-}
-}while(i != null);
-}
+  /**
+   * Deschribtion: uses Persistence Manager to write the current stock from the Storage to the Storage File.
+   * @param String datei
+   * @throws IOException
+   */
+  public void writeData(String datei) throws IOException {
 
+    pm.openForWriting(datei);
 
-//Schreibt den aktullen bestand vom Lager in die Lager Datei
-public void writeData(String data) throws IOException{
-pm.openForWriting(data);
+    for (Item i: itemStock) { // for each Item from the Itemstock
+      pm.saveItems(i);
+    }
 
-for(Item i : itemStock) {
-pm.saveItem(i);
-}
-pm.close();
-}
+    pm.close();
 
+  }
+  /**
+   * adds an item to the inventory
+   * @param a
+   */
 
+  public void add(Item i) {
 
+   itemStock.add(i);
+  }
 
+  /**
+   * deletes an item that has the given number
+   * @param nummer
+   */
+  public void delete(int number) {
+    Iterator < Item > iter = itemStock.iterator();
+    while (iter.hasNext()) {
+      Item i = iter.next();
+      if (i.getNumber() == number) { //
+        iter.remove();
+      }
+    }
+  }
 
+  /**
+   * Searches the item inventory for a name
+   * @param name
+   * @return a list of search results
+   */
+  public List < Item > searchItemName(String name) {
 
+    List < Item > searchResult = new ArrayList < Item > ();
+    Iterator < Item > iter = itemStock.iterator();
 
-//füge einen Artikel dem Bestand hinzu
-public void  addItem(Item i) {
-itemStock.add(i);	
-	
-	
-}
-//löscht eine Artikel aus dem aktuellen Bestand
-public void delete(int number) {
-Iterator<Item> iter = itemStock.iterator();
-while(iter.hasNext()) {
-Item i = iter.next();
-if(i.getNumber()==number) {
-iter.remove();
-}
+    while (iter.hasNext()) {
+      Item i = iter.next();
+      if (i.getName().equals(name)) {
+        searchResult.add(i);
+      }
+    }
+    return searchResult;
+  }
+  /**
+   * searches the list for the given item number
+   * @param nr
+   * @return
+   */
+  public List < Item > searchItemNr(int nr) {
 
-}
-}
-//durchsucht den Artikelbestand nach einem Namen und gibt eine Liste mit den Suchergebnissen zurück
-public List<Item> searchItemByName(String name){
-List<Item> searchResult = new ArrayList<Item>();
-Iterator<Item> iter = itemStock.iterator();
+    List < Item > searchResult = new ArrayList < Item > ();
+    Iterator < Item > iter = itemStock.iterator();
 
-while(iter.hasNext()) {
-Item i = iter.next();
-if(i.getName().equals(name)) {
-searchResult.add(i);
-}
+    while (iter.hasNext()) {
+      Item i = iter.next();
+      if (i.getNumber() == nr) {
+        searchResult.add(i);
+      }
+    }
+    return searchResult;
+  }
 
-}
-return searchResult;
-}
-
-//durchsucht die Liste nach der Artikelnummer
-public List<Item> searchItemByNumber(int number){
-
-List<Item> searchResult = new ArrayList<Item>();
-Iterator<Item>  iter = itemStock.iterator();
-
-while(iter.hasNext()) {
-Item i = iter.next();
-if(i.getNumber() == number ) {
-	
-searchResult.add(i);
-	
-}
-}
-return searchResult;
-}
-//gibt eine Liste mit dem Artikelbestand zurück
-public List<Item> getItemStock(){
-return new ArrayList<Item>(itemStock);
-	
-}
+  /**
+   * returns a list of the item inventory
+   * @return
+   */
+  public List < Item > getItemStock() {
+    return new ArrayList < Item > (itemStock);
+  }
 
 }

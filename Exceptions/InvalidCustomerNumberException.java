@@ -1,15 +1,12 @@
 package Exceptions;
 
-public class InvalidCustomerNumberException extends Exception {
+public class InvalidCustomerNumberException extends Exception{
 
-
-public InvalidCustomerNumberException() {
+	public InvalidCustomerNumberException() {
+		super("Incorrect customer number!");
+	}
+	public InvalidCustomerNumberException(String s) {
+		super(s);
+	}
 	
-super("Incorrect Customer Nr");
-	
-}
-
-
-
-
 }
