@@ -13,7 +13,6 @@ public class Changelog {
   private Employee e;
   private Customer c;
   private String message;
-  private String strDate;
   private boolean typ; //true: Employee | false: Customer
   private String Time;
 

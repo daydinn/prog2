@@ -1,5 +1,6 @@
 package LoginFunctions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Exceptions.IncorrectLoginDataException;
@@ -35,11 +36,29 @@ public class LoginCustomer {
 				
 			}
 		}
+		
+		
 		if(!x) {
 			throw new IncorrectLoginDataException("Username or Password are uncorrect!");	
 		}
 		return false;
 	}
+	
+	//test
+	public String getUserName(int number){
+	 List<Customer> list = new ArrayList();
+		String username;
+		boolean x = false;
+		for(Customer c : list) {
+		if( c.getCustomerNr() == number) {
+		c.getUsername();
+		}
+		}
+	//	return c.getUsername();
+		return null;
+	
+	}
+	
 	
 	public int getNumber() {return currentNumber;} //returns the customer number;
 	

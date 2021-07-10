@@ -17,11 +17,13 @@ public class Cart {
    *Description: outputs the shopping cart in the console.
    */
   public void output() { 
-    for (cartItem ti: cartList) {
-      System.out.println(ti);
-    }
-  }
-
+	    for (cartItem ti: cartList) {
+	      System.out.println(ti);
+	    }
+	    if(cartList.isEmpty()) {
+	     System.out.println("Cart is empty!");
+	    }
+	  }
   /**
    * outputs the current shopping cart list
    * @return Cartlist
@@ -63,30 +65,34 @@ public class Cart {
    * @param aAnz
    */
   public void addItem(int iNumber, int iAmo) { 
-    Iterator < Item > iter = this.iList.iterator();
-    cartItem ti;
+	    Iterator < Item > iter = this.iList.iterator();
+	    cartItem ti;
 
-    while (iter.hasNext()) {
-     Item i = iter.next();
-      if (i.getNumber() == iNumber) {
-        if (cartList.contains(new cartItem(i, iAmo))) {   //check whether the item is already in the shopping cart (uncorrect)
-          ti = cartList.get(cartList.indexOf(i)); //returns an object from a list, (indexof gives  the place in a list of an object)
-          System.out.println("already exists"); 
+	    while (iter.hasNext()) {
+	     Item i = iter.next();
+	      if (i.getNumber() == iNumber) {
+	        if (cartList.contains(new cartItem(i, iAmo))) {   //check whether the item is already in the shopping cart (uncorrect)
+	          ti = cartList.get(cartList.indexOf(i)); //returns an object from a list, (indexof gives  the place in a list of an object)
+	          
 
-        } else {
-          if (i.getStock() >= iAmo) {
-            cartList.add(new cartItem(i, iAmo));
-            System.out.println("not yet available"); 
-            System.out.println("There are not enough items in stock.");
-          }
-        }
+	        } else {
+	          if (i.getStock() >= iAmo) {
+	            cartList.add(new cartItem(i, iAmo));
+	            
+	          }else {
+	         System.out.println("There are not enough items in storage"); 
+	          }
+	        }
 
-      }
-    }
-  }
+	      }
+	    }
+	  }
+
 
   /**
-   * deletes an item from the shopping cart, depending on the amount of items.
+   * deletes an item from the shopping cart, with itemnumber.
+   * @param iNumber
+   * @param iAmo
    */
   public void delItem(int iNumber, int iAmo) { //remove item from shopping cart
     Iterator < cartItem > iter = this.cartList.iterator();
@@ -108,7 +114,9 @@ public class Cart {
 
   }
   /**
-   * deletes an item from the shopping cart, depending on the amount of items.
+   * Change the ammount of Items in  shopping cart, with itemnumber.
+   * @param iNumber
+   * @param iAmo
    */
   public void changeStockofItem(int iNumber, int iAmo) { //remove item from shopping cart
     
@@ -122,15 +130,18 @@ public class Cart {
     if ((ti.getItem().getStock() == iAmo || ti.getItem().getStock() > iAmo) && iAmo >= 0 ) {
       
     ti.setAmount(iAmo);
+    if(iAmo == 0) {
+    cartList.remove(ti);
+    }
     
     }
     else {
-        System.out.println("It is not possible to delete more items than are available.");
+        System.out.println("It is not possible to change the amount of this item");
       }
     
     	  
     }else {
-          System.out.println("It is not possible to delete more items than are available.");
+          System.out.println("it doesnt work.");
         }
       
     }
@@ -160,6 +171,7 @@ public class Cart {
           if (i.getNumber() == ti.getItem().getNumber()) { //whether both have selected the same object
             i.setStock(i.getStock() - ti.getAmount()); //reduce the inventory in the Storage
             System.out.println(i);
+          
           }
         }
       }

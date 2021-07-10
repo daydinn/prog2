@@ -1,6 +1,12 @@
 package GUI;
 
 //package CUI;
+/**
+ * 
+ * 
+ * @author ryans
+ */
+
 
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -25,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import Domain.ChangelogManager;
+import Domain.Eshop;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -81,7 +88,7 @@ public class ShopClientGUI extends JFrame {
   private List < Customer > clist;
   private List < Employee > elist;
   static List < String > log = new ArrayList < String > ();
-
+ 
   private static Storage storage;
   private static EmployeeManagement employeeManagement;
   private static CustomerManagement customerManagement;
@@ -164,12 +171,14 @@ public class ShopClientGUI extends JFrame {
   private JLabel labelAdresse1;
   private Object tabelleFeld;
 
+
+
   /**
    * Description: starts the program. Creates the GUI. Saves all lists before the program is closed.
    * 
    */
   public static void main(String[] args) {
-
+	 
     ShopClientGUI gui;
 
     gui = new ShopClientGUI("It", "Emp", "Cus", "Log");
@@ -1996,6 +2005,7 @@ public class ShopClientGUI extends JFrame {
     showItemsbtn.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         updateItemTable(storage.getAllItems());
+        
       }
     });
     showItemsbtn.setBounds(70, 250, 126, 23);
@@ -2325,7 +2335,7 @@ public class ShopClientGUI extends JFrame {
               e1.printStackTrace();
             }
             totalPriceNumberlbl.setText(null);
-            updateCustomerCartTable(cart.getCart());
+           updateCustomerCartTable(cart.getCart());
             updateItemTable(storage.getAllItems());
           }
         });
@@ -2368,6 +2378,7 @@ public class ShopClientGUI extends JFrame {
             wrongEntrylbl.setText("You tried to change the amount");
             ItemNrtext1.setText(null);
             amounttext1.setText(null);
+            WrongItemlbl4.setText(null);
             updateCustomerCartTable(cart.getCart());
           }
         } catch (InvalidCartException ex) {
@@ -2377,6 +2388,7 @@ public class ShopClientGUI extends JFrame {
           wrongEntrylbl.setText("Uncorrect Entry!");
           ItemNrtext1.setText(null);
           amounttext1.setText(null);
+          WrongItemlbl4.setText(null);
         }
 
       }
@@ -2549,6 +2561,7 @@ public class ShopClientGUI extends JFrame {
 
       public void actionPerformed(ActionEvent e) {
         updateCustomerCartTable(cart.getCart());
+        
       }
     });
     showItemsBtn.setBounds(200, 200, 141, 23);
@@ -2712,11 +2725,11 @@ public class ShopClientGUI extends JFrame {
           System.out.print(currentEmployee);
           employeeMenu();
           shopLoginEmployeeFrame.setVisible(false);
-          logmanager.add(new Changelog(employeeManagement.searchByNumber(a.getNumber()).get(0), "has logged in ", true));
+          logmanager.add(new Changelog(employeeManagement.searchByNumber(a.getNumber()).get(0), username + "  has logged in ", true));
           //logmanager.outputLog();
 
         } catch (IncorrectLoginDataException ex) {
-          wrongIdorPw.setText("Username or Password are uncorrect!");
+          wrongIdorPw.setText("Username or Password is uncorrect!");
           logmanager.add(new Changelog(system, "Login failed!", true));
         }
       }
@@ -2800,10 +2813,10 @@ public class ShopClientGUI extends JFrame {
           System.out.println("|" + currentCustomer + "|");
           customerMenu();
           shopLoginCustomerFrame.setVisible(false);
-          logmanager.add(new Changelog(customerManagement.searchByNumber(a.getNumber()).get(0), "has logged in.", false));
+          logmanager.add(new Changelog(customerManagement.searchByNumber(a.getNumber()).get(0), username + "  has logged in.", false));
 
         } catch (IncorrectLoginDataException ex) {
-          wrongIdorPw.setText("Username or Password are uncorrect!");
+          wrongIdorPw.setText("Username or Password is uncorrect!");
           logmanager.add(new Changelog(system, "Login failed!", true));
         }
 
@@ -3071,7 +3084,7 @@ public class ShopClientGUI extends JFrame {
     employeeNrlbl.setBounds(24, 267, 121, 14);
     shopEmployeeRegistrationFrame.getContentPane().add(employeeNrlbl);
 
-    employeeNrText = new JTextField("" + newNumberMitarbeiter(employeeManagement.getAllEmployees()));
+    employeeNrText = new JTextField("" + newNumberEmployee(employeeManagement.getAllEmployees()));
     employeeNrText.setEditable(false);
     employeeNrText.setColumns(10);
     employeeNrText.setBounds(24, 290, 43, 20);
@@ -3135,7 +3148,7 @@ public class ShopClientGUI extends JFrame {
             // TODO Auto-generated catch block
             e1.printStackTrace();
           }
-          logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "Employee : " + username + " | " + employeeNr + " has been registered.", true));
+         logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "Employee : " + username + " | " + employeeNr + " has been registered.", true));
           shopEmployeeRegistrationFrame.setVisible(false);
           System.out.println("A new employee has been created.");
           if (!b) {
@@ -3166,7 +3179,7 @@ public class ShopClientGUI extends JFrame {
     return newNumber;
   }
 
-  public int newNumberMitarbeiter(List < Employee > liste) {
+  public int newNumberEmployee(List < Employee > liste) {
     Employee maxByNumber = liste.stream().max(Comparator.comparing(Employee::getEmployeeNr)).orElseThrow(NoSuchElementException::new);
     int newNumber = maxByNumber.getEmployeeNr() + 1;
     return newNumber;
