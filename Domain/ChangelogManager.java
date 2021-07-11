@@ -18,7 +18,9 @@ public class ChangelogManager {
   private PersistenceManager pm = new FilePersistenceManager();
 
   /**
-   * Description: reads Data with a FilePersistenceManager Object for Changelog-
+   * Description: reads Data with a FilePersistenceManager 
+   * A File Persistence Manager is created and this then reads out the specified file
+   * 
    * @param datei
    * @throws IOException
    */
@@ -79,7 +81,7 @@ public class ChangelogManager {
   /**
    * searches the changelog for a name and returns all entries with the name.
    * @param name
-   * @return
+   * @return searchResult
    * @throws InvalidNameChangelogException
    */
   public List < Changelog > searchChangelogName(String name) throws InvalidNameChangelogException {
@@ -111,11 +113,9 @@ public class ChangelogManager {
   /**
    * searches the changelog for a nr and returns all entries with the nr.
    * @param nr
-   * @return
+   * @return searchResult
    * @throws InvalidNumberChangelogException
    */
-  
- 
   public List < Changelog > searchChangelogNr(int nr) throws InvalidNumberChangelogException {
 
 	    List < Changelog > searchResult = new ArrayList < Changelog > ();

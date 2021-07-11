@@ -190,7 +190,7 @@ public class ShopClientGUI extends JFrame {
     Date date = Calendar.getInstance().getTime();
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
     String strDate = dateFormat.format(date);
-    System.out.println("Converted String: " + strDate);
+    System.out.println("Date: " + strDate);
 
     // system user for the changelog
     employeeManagement.deleteEmployee(1);
@@ -2584,11 +2584,9 @@ public class ShopClientGUI extends JFrame {
     logoutbtn.setFont(new Font("SansSerif", Font.PLAIN, 18));
     CustomerMenuFrame.getContentPane().add(logoutbtn);
 
-    // Creater
+  
 
-    JLabel createrlbl2 = new JLabel("E-Shop creater : Diyar Aydin, Marc Dristram, Milan Klaussener");
-    createrlbl2.setBounds(40, 510, 442, 14);
-    CustomerMenuFrame.getContentPane().add(createrlbl2);
+    
 
   }
 

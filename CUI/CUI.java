@@ -21,9 +21,13 @@ import LoginFunctions.LoginCustomer;
 import LoginFunctions.LoginEmployee;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -189,7 +193,9 @@ public class CUI {
 		String itemStock = "";
 		String itemMinimumStock = "";
 		String eNumber = "";
+		String eName= "";
 		String cNumber = "";
+		String cName= "";
 		String itemAmount = "";
 		String itemBulk= "";
 		int iAmo;
@@ -212,26 +218,23 @@ public class CUI {
 		System.out.println("4. Search an Item: '4': ");
 		System.out.println("5. Sort Items by Name: '5': ");
 		System.out.println("6. Sort Items by number: '6': ");
-		System.out.println("7. Change Amount of Item: ");
-		System.out.println("8. Add item to shopping cart: '8': ");
-		System.out.println("9. Remove item from shopping cart: '9': ");
-		System.out.println("10. Empty cart: '10': ");
-		System.out.println("11. Show Shopping Cart: '11': ");
-		System.out.println("12. Buy Shopping cart: '12': ");
-		System.out.println("13. Show changelog: '13': ");
-		System.out.println("14. Create new employee: '14': ");
-		System.out.println("15. Show all employees: '15': ");
-		System.out.println("16. Delete an employee: '16': ");
-		System.out.println("17. Search an employee: '17': ");
-		System.out.println("18. Create a customer: '18': ");
-		System.out.println("19. Delete a customer: '19': ");
-		System.out.println("20. Show all customers: '20': ");
-		System.out.println("21. Find a customer: '21': ");
-		System.out.println("22. Save Customerlist: '22': ");
-		System.out.println("23. Save employee list: '23': ");
-		System.out.println("24. Logout: '24': ");
-		System.out.println("25. Output ChangeLog: '25': ");
-		System.out.println("26. Save ChangeLog:: '26': ");
+		System.out.println("7. Change Amount of Item: '7'  ");
+        System.out.println("8. Show changelog: '8': ");
+		System.out.println("9. Create new employee: '9': ");
+		System.out.println("10. Show all employees: '10': ");
+		System.out.println("11. Delete an employee: '11': ");
+		System.out.println("12. Search an employee by Nr: '12': ");
+		System.out.println("13. Search an employee by Name: '13': ");
+		System.out.println("14. Create a customer: '14': ");
+		System.out.println("15. Delete a customer: '15': ");
+		System.out.println("16. Show all customers: '16': ");
+		System.out.println("17. Search a customer by Nr: '17': ");
+		System.out.println("18. Search a customer by Name: '18': ");
+		System.out.println("19. Save Customerlist: '19': ");
+		System.out.println("20. Save employee list: '20': ");
+		System.out.println("21. Logout: '21': ");
+		System.out.println("22. Output ChangeLog: '22': ");
+		System.out.println("23. Save ChangeLog:: '23': ");
 		System.out.println("-----------------------------------------------");
 		System.out.println("");
 		System.out.print(">>");
@@ -242,12 +245,7 @@ public class CUI {
 			System.out.println("");
 			getItemlist(ilist);
 			System.out.println("");
-			try {
-				logmanager.writeData("All items has been  displayed");
-			} catch (IOException e9) {
-				
-				e9.printStackTrace();
-			}
+		
 			employeeMenu();
 			break;
 		
@@ -465,88 +463,36 @@ public class CUI {
 			
 			
 			break;
-		case "8": //add an item to cart
-			System.out.println("");
-			System.out.println("Please enter the item number of the Item: ");
-			System.out.println("");
-			System.out.print(">>");
-			itemNumber = readEntry();
-			iNum = Integer.parseInt(itemNumber);
+		
+		case "8": //Show Changelog
+	
 			
-			System.out.println("");
-			System.out.println("Please enter die Amount of Item: ");
-			System.out.println("");
-			System.out.print(">>");
-			itemAmount = readEntry();
-			iAmo = Integer.parseInt(itemAmount);
 			
-			System.out.println("");
-			cart.addItem(iNum, iAmo);
-			System.out.println("The item has been added to the cart.");
-			System.out.println("");
-			cart.output();
-			System.out.println("");
-			employeeMenu();
-			break; 
-		case "9": //Change amount of Items
-			System.out.println("");
-			System.out.println("Please enter the number of items: ");
-			System.out.println("");
-			System.out.print(">>");
-			itemNumber = readEntry();
-			iNum = Integer.parseInt(itemNumber);
-			
-			System.out.println("");
-			System.out.println("Please enter the amount of items: ");
-			System.out.println("");
-			System.out.print(">>");
-			itemAmount = readEntry();
-			iAmo = Integer.parseInt(itemAmount);
-			
-			System.out.println("");
-			cart.delItem(iNum, iAmo);
-			System.out.println("The item has been removed from the shopping cart.");
-			System.out.println("");
-			cart.output();
-			System.out.println("");
-			employeeMenu();
 			break;
-		case "10": // Empty cart
-			System.out.println("");
-			System.out.println("The shopping cart has been emptied.");
-			System.out.println("");
-			cart.empty();
-			logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), " has emptied the  cart!", false));
-			cart.output();
-			employeeMenu();
+	
+		case "123": // Show changelog
 			break;
-		case "11": //View Shopping Cart
-			System.out.println("");
-			cart.output();
-			System.out.println("");
-			employeeMenu();
-			break;
-		case "12": //Buy Shopping CART
-			System.out.println("");
-			for (cartItem ti: cart.getCart()) {
-			System.out.println(ti.getItem().getName());
-			}
-			break;
-		case "13": // Show changelog
-			break;
-		case "14": //create new employee
+		
+		
+		case "9": //create new employee
 			System.out.println("");
 			shopEmployeeRegistration();
 			System.out.println("");
+			try {
+				customerManagement.writeCustomers();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
 			employeeMenu();
 			break;
-		case "15": //show all employees
+		case "10": //show all employees
 			System.out.println("");
-			getAllEmployees(elist);
+		    getEmployeelist(elist);
 			System.out.println("");
 			employeeMenu();
 			break;
-		case "16": //Delete employee
+		case "11": //Delete employee
 			System.out.println("");
 			System.out.println("Please enter the employee number of the employee to be deleted: ");
 			System.out.println("");
@@ -565,23 +511,84 @@ public class CUI {
 			System.out.println("");
 			employeeMenu();
 			break;
-		case "17": //Search for employees
+		case "12": //Search a employee by Nr  
 			System.out.println("");
-			System.out.println("Employeename:    ");
+			System.out.println("EmployeeNr:    ");
 			eNumber = readEntry();
 			eNum = Integer.parseInt(eNumber);
-			elist = employeeManagement.searchByNumber(eNum);
-			getAllEmployees(elist);
+			
+			
+			 try {
+	              if (checkNumberEmployee(eNum)) {
+	              System.out.println("");
+	               elist = employeeManagement.searchByNumber(eNum);
+	               System.out.println(elist);
+	               System.out.println("");
+	               employeeMenu();
+	               System.out.println("");
+	              }
+	            } catch (InvalidEmployeeNumberException ex) {
+	            	System.out.println("Invalid Nr!");
+	                System.out.println(ex.getMessage());
+	                System.out.println("");
+	                logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "Search Error! " + ex.getMessage(), true));
+	                employeeMenu(); 
+	                System.out.println("");
+	            }
+			 System.out.println("");
+			 employeeMenu();
+			 break;
+			
+			
+			
+			
+			
+			
+			
+			 
+		
+		case "13": //Search a employee by Name  
 			System.out.println("");
-			employeeMenu();
-			break;
-		case "18": //create new customer
+			System.out.println("Employeename:    ");
+			eName = readEntry();
+			
+			
+			try {
+	              if (checkNameEmp(eName)) {
+	            	  System.out.println("");
+		               elist = employeeManagement.searchByName(eName);
+		               System.out.println(elist);
+		               System.out.println("");
+		               employeeMenu();
+		              System.out.println("");
+	                
+	              }
+	            } catch (InvalidEmployeeNameException ex) {
+	              System.out.println("Invalid Name!");
+	              System.out.println("");
+	              System.out.println(ex.getMessage());
+	              logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "Search Error! " + ex.getMessage(), true));
+	            }
+	            
+			   System.out.println("");
+			   employeeMenu();
+			   break;
+		
+		
+		
+		case "14": //create new customer
 			System.out.println("");
 			shopCustomerRegistration(true);
 			System.out.println("");
+			try {
+				customerManagement.writeCustomers();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
 			employeeMenu();
 			break;
-		case "19": //Delete customers
+		case "15": //Delete customers
 			System.out.println("");
 			System.out.println("Please enter the customer number of the customer to be deleted: ");
 			System.out.println("");
@@ -600,23 +607,79 @@ public class CUI {
 			System.out.println("");
 			employeeMenu();
 			break;
-		case "20": //Show all customers
+		case "16": //Show all customers
 			System.out.println("");
-			getAllCustomers(clist);
+			getCustomerlist(clist);
 			System.out.println("");
 			employeeMenu();
 			break;
-		case "21": //search customers
+		case "17": //search customers by nr
+			
+			
 			System.out.println("");
-			System.out.println("Customer number:   ");
+			System.out.println("CustomerNr:    ");
 			cNumber = readEntry();
 			cNum = Integer.parseInt(cNumber);
-			clist = customerManagement.searchByNumber(cNum);
-			getAllEmployees(elist);
+			
+			
+			 try {
+	              if (checkNumberCustomer(cNum)) {
+	              System.out.println("");
+	               clist = customerManagement.searchByNumber(cNum);
+	               System.out.println(clist);
+	               System.out.println("");
+	               employeeMenu();
+	               System.out.println("");
+	              }
+	            } catch (InvalidCustomerNumberException ex) {
+	            	System.out.println("Invalid Nr!");
+	                System.out.println(ex.getMessage());
+	                System.out.println("");
+	                logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "Search Error! " + ex.getMessage(), true));
+	                employeeMenu(); 
+	                System.out.println("");
+	            }
+			 System.out.println("");
+			 employeeMenu();
+			 break;
+		
+		
+		case "18": //search customers by name
 			System.out.println("");
-			employeeMenu();
-			break;
-		case "22": //save customer list
+			System.out.println("Customername:    ");
+			cName = readEntry();
+			
+			
+			try {
+	              if (checkNameCus(cName)) {
+	            	  System.out.println("");
+		               clist = customerManagement.searchByName(cName);
+		               System.out.println(clist);
+		               System.out.println("");
+		               employeeMenu();
+		              System.out.println("");
+	                
+	              }
+	            } catch (InvalidCustomerNameException ex) {
+	              System.out.println("Invalid Name!");
+	              System.out.println("");
+	              System.out.println(ex.getMessage());
+	              logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "Search Error! " + ex.getMessage(), true));
+	            }
+	            
+			   System.out.println("");
+			   employeeMenu();
+			   break;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		case "19": //save customer list
 			try {
 				customerManagement.writeCustomers();
 			} catch (IOException e) {
@@ -634,7 +697,7 @@ public class CUI {
 			System.out.println("");
 			employeeMenu();
 			break;
-		case "23": //Save employee list
+		case "20": //Save employee list
 			try {
 				employeeManagement.writeEmployees();
 			} catch (IOException e) {
@@ -652,22 +715,19 @@ public class CUI {
 			System.out.println("");
 			employeeMenu();
 			break;
-		case "24": //logout
-			System.out.println("");
-			try {
-				logmanager.writeData("The user has logged off");
-				logmanager.writeData("Log");
-			} catch (IOException e2) {
+		case "21": //logout
+			Date date = Calendar.getInstance().getTime();
+		    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		    String strDate = dateFormat.format(date);
+		    System.out.println("Date: " + strDate);
+	        logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "has logged out", false));
+	        getLog();
+	        System.out.println("You are now logging out ...");
+	        shopLogin();
 			
-				e2.printStackTrace();
-			}
-			getLog();
-			System.out.println("You are now logging out ...");
-			System.out.println("");
 			
-			shopLogin();
 			break;
-		case "25": //output changelog
+		case "22": //output changelog
 			System.out.println("");
 			getLog();
 			System.out.println("");
@@ -679,7 +739,7 @@ public class CUI {
 			}
 			employeeMenu();
 			break;
-		case "26": //save changelog
+		case "23": //save changelog
 			System.out.println("");
 			try {
 				logmanager.writeData("Log");
@@ -697,18 +757,16 @@ public class CUI {
 			employeeMenu();
 			break;
 		default:
-			System.out.println("");
-			try {
-				logmanager.writeData("Incorrect entry in the employee menu");
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-			}
-			System.out.println("Incorrect entry, please try again ...");
-			System.out.println("");
-			employeeMenu();
-		}
+			System.out.println("Incorrect entry!");
+			
+			
+			
+			logmanager.add(new Changelog(system, "ncorrect entry in the start menu", true));
+			System.out.println("Please try again");
+			shopLogin();
 		
+		}
+		getMenu();
 	}
 	
 	public void customerMenu() {
@@ -1119,23 +1177,18 @@ public class CUI {
 			    
 			break;
 		case "10": //Logout
-			System.out.println("");
-			try {
-				//logmanager.writeData("The user has logged off");
-				logmanager.writeData("Log");
-			} catch (IOException e2) {
 			
-				e2.printStackTrace();
-			}
-			//getLog();
-			System.out.println("You are now logging out ...");
-			System.out.println("");
-			
-			
-				
-				
-			
-			shopLogin();
+			Date date = Calendar.getInstance().getTime();
+		    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		    String strDate = dateFormat.format(date);
+		    System.out.println("Date: " + strDate);
+	        logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "has logged out", false));
+	        
+	        System.out.println("You are now logging out ...");
+	        shopLogin();
+	   
+	      
+	   
 			break;
 		
 		default:
@@ -1169,17 +1222,17 @@ public class CUI {
 			break;
 		default:
 			System.out.println("Incorrect entry!");
-			try {
-				logmanager.writeData("There was an incorrect entry in the start menu");
+			
+				
+				
+				logmanager.add(new Changelog(system, "ncorrect entry in the start menu", false));
 				System.out.println("Please try again");
 				shopLogin();
-			} catch (IOException e) {
-				
-				e.printStackTrace();
+			
 			}
 			getMenu();
 		}
-	}
+	
 	
 	
 	
@@ -1205,13 +1258,23 @@ public class CUI {
 		password = readEntry();
 		LoginEmployee a  = new LoginEmployee();
 	  
+		Date date = Calendar.getInstance().getTime();
+	    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+	    String strDate = dateFormat.format(date);
+		 
+	  
 	
-		try {
+		
+		 try {
 			a.login(employeeManagement.getAllEmployees(), username, password);
 			currentEmployee = a.getNumber();
 			System.out.print(currentEmployee);
-			employeeMenu();
-			logmanager.add(new Changelog(employeeManagement.searchByNumber(a.getNumber()).get(0), username + "  has logged in ", true));
+			 System.out.println("Employee : " + username + " has logged in");
+			 System.out.println("Employee Nr: "+"| " + currentEmployee + " |");
+	         System.out.println(strDate);
+	         System.out.println("");
+			 employeeMenu();
+			 logmanager.add(new Changelog(employeeManagement.searchByNumber(a.getNumber()).get(0), username + "  has logged in ", true));
 		
 		 } catch (IncorrectLoginDataException ex) {
 	          System.out.println("Username or Password is uncorrect!");
@@ -1248,20 +1311,27 @@ public class CUI {
 		System.out.print(">>");
 		password = readEntry();
 		
-		
-		
 		LoginCustomer a = new LoginCustomer();
+		Date date = Calendar.getInstance().getTime();
+	    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+	    String strDate = dateFormat.format(date);
+	  
+		
 		
 		  try {
+			 
 	          a.login(customerManagement.getAllCustomers(), username, password);
 	          currentCustomer = a.getNumber();
-	          System.out.println("| " + currentCustomer + " |");
+	          System.out.println("Customer : " + username + " has logged in");
+			  System.out.println("Customer Nr: "+"| " + currentCustomer + " |");
+	          System.out.println(strDate);
+	          System.out.println("");
 	          customerMenu();
-	          logmanager.add(new Changelog(customerManagement.searchByNumber(a.getNumber()).get(0), username+   "  has logged in.", false));
-	          System.out.println("Customer : " + username +" has logged in");
+	          logmanager.add(new Changelog(customerManagement.searchByNumber(a.getNumber()).get(0), username+   " username has logged in.", false));
+	         
 	        } catch (IncorrectLoginDataException ex) {
 	          System.out.println("Username or Password is uncorrect!");
-	          logmanager.add(new Changelog(system, "Login failed!", true));
+	          logmanager.add(new Changelog(system, "Login failed!", false));
 	        }
 
 	      }
@@ -1334,7 +1404,6 @@ public class CUI {
 	    try {
         customerManagement.writeCustomers();
         } catch (IOException e1) {
-
         e1.printStackTrace();
        }
 		
@@ -1343,6 +1412,7 @@ public class CUI {
 		System.out.println("");
 		System.out.println("New Customer with username -> "+username+ " and nr-> "+customerNr+ " has been created");
 		System.out.println("");
+		getCustomerlist(clist);
 		if (!b) {
 	            shopLoginCustomer();
 	            logmanager.add(new Changelog(system, "the customer: " + username + " | " + customerNr + " has been created.", true));
@@ -1418,6 +1488,8 @@ public class CUI {
 		
 		if(!username.isEmpty()) {
 		employeeManagement.addAnEmployee(username, password, firstname, lastname, email, employeeNr);
+		 logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "Employee : " + username + " | " + employeeNr + " has been registered.", true));
+
 		}
 		 try {
 	            employeeManagement.writeEmployees();
@@ -1425,12 +1497,13 @@ public class CUI {
 	            
 	            e1.printStackTrace();
 	          }
-         logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "Employee : " + username + " | " + employeeNr + " has been registered.", true));
-
+        
          
 		 System.out.println(""); 
 		 System.out.println("New employee with username -> " + username +" and nr-> "+employeeNr+  " has been created.");
+		 getEmployeelist(elist);
 		 System.out.println("");
+		 employeeMenu();
 		 
 	}
 
@@ -1461,6 +1534,30 @@ public class CUI {
 	
 	
 	
+	  private static void getEmployeelist(List<Employee> elist) {
+		 
+		 elist= employeeManagement.getAllEmployees();
+		 if (elist.isEmpty()) {
+			System.out.println("List is empty.");
+		} else {
+			for (Employee e : elist) {
+				System.out.println(e);
+			}
+		}  
+	  }
+	  
+	  
+	  private static void getCustomerlist(List<Customer> clist) {
+			 
+			 clist= customerManagement.getAllCustomers();
+			 if (clist.isEmpty()) {
+				System.out.println("List is empty.");
+			} else {
+				for (Customer c : clist) {
+					System.out.println(c);
+				}
+			}  
+		  }
 	
 	
 	
@@ -1533,25 +1630,25 @@ public class CUI {
 		}
 	
 	
-	private static void getAllEmployees(List<Employee> list) {
-		if (list.isEmpty()) {
-			System.out.println("List is empty.");
-		} else {
-			for (Employee e : list) {
-				System.out.println(e);
-			}
-		}
-	}
-
-	private static void getAllCustomers(List<Customer> list) {
-		if (list.isEmpty()) {
-			System.out.println("List is empty.");
-		} else {
-			for (Customer c : list) {
-				System.out.println(c);
-			}
-		}
-	}
+//	private static void getAllEmployees(List<Employee> list) {
+//		if (list.isEmpty()) {
+//			System.out.println("List is empty.");
+//		} else {
+//			for (Employee e : list) {
+//				System.out.println(e);
+//			}
+//		}
+//	}
+//
+//	private static void getAllCustomers(List<Customer> list) {
+//		if (list.isEmpty()) {
+//			System.out.println("List is empty.");
+//		} else {
+//			for (Customer c : list) {
+//				System.out.println(c);
+//			}
+//		}
+//	}
 	
 	private static void getLog() {
 		
