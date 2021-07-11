@@ -42,7 +42,6 @@ public class Changelog {
     this.e = e;
     this.message = message;
     this.typ = typ;
-
     Date date = Calendar.getInstance().getTime();
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
     String Time = dateFormat.format(date);

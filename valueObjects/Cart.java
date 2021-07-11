@@ -118,7 +118,7 @@ public class Cart {
    * @param iNumber
    * @param iAmo
    */
-  public void changeStockofItem(int iNumber, int iAmo) { //remove item from shopping cart
+  public void changeStockofItem(int iNumber, int iAmo) { //change items amount
     
 	  
 	 Iterator < cartItem > iter = this.cartList.iterator();
@@ -127,8 +127,8 @@ public class Cart {
     cartItem ti = iter.next();
      
     if (ti.getItem().getNumber() == iNumber) { //if Item is in the shopping cart
-    if ((ti.getItem().getStock() == iAmo || ti.getItem().getStock() > iAmo) && iAmo >= 0 ) {
-      
+    if ((ti.getItem().getStock() == iAmo || ti.getItem().getStock() > iAmo) && iAmo >= 0 ) { //The amount to be changed cant be bigger than the Item's Storage Stock.
+     System.out.println("Item amount in Cart has been changed");
     ti.setAmount(iAmo);
     if(iAmo == 0) {
     cartList.remove(ti);

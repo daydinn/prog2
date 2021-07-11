@@ -17,7 +17,8 @@ import Valueobjects.Item;
 
 
 public class FilePersistenceManager implements PersistenceManager {
-
+//to read files in and out
+	
 	private BufferedReader reader = null;
 	private PrintWriter writer = null;
 	
@@ -38,7 +39,7 @@ public class FilePersistenceManager implements PersistenceManager {
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 	}
 	/**
-	 * schlieﬂt den buffered Reader und writer
+	 * closes bufferedreader and writer
 	 */
 	@Override
 	public boolean close() {
