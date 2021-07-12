@@ -1,2 +1,11 @@
 /domain/
 /net/
+/Cus-Textfile
+/Emp-Textfile
+/It-Textfile
+/Log
+/Log-Textfile
+/exceptions/
+/interfaces/
+/valueObjects/
+/Persistence/

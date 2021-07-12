@@ -5,21 +5,27 @@ import java.io.*;
 
 public class Server {
 	
-	public static void main(String args[]) throws IOException {
-		System.out.println("initializing...");
-		ServerSocket serverSocket = new ServerSocket(4999);
-		Socket clientSocket = serverSocket.accept();
+	ServerSocket serverSocket;
+	Socket clientSocket;
+	
+	InputStreamReader in;
+	BufferedReader bf;
+	
+	PrintWriter pr;
+	
+	public Server(int port) throws IOException {
+		serverSocket = new ServerSocket(port);
+		clientSocket = serverSocket.accept();
 		
 		System.out.println("client connected");
 		
-		InputStreamReader in = new InputStreamReader(clientSocket.getInputStream());
-		BufferedReader bf = new BufferedReader(in);
+		in = new InputStreamReader(clientSocket.getInputStream());
+		bf = new BufferedReader(in);
 		
-		String str = bf.readLine();
-		System.out.println("client: "+str);
+		System.out.println("client: "+bf.readLine());
 		
-		PrintWriter pr = new PrintWriter(clientSocket.getOutputStream());
-		pr.println("yes");
+		pr = new PrintWriter(clientSocket.getOutputStream());
+		pr.println("Connection Established.");
 		pr.flush();
 	}
 	

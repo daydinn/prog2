@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import Exceptions.InvalidNameChangelogException;
-import Exceptions.InvalidNumberChangelogException;
+import exceptions.InvalidNameChangelogException;
+import exceptions.InvalidNumberChangelogException;
 import Persistence.FilePersistenceManager;
 import Persistence.PersistenceManager;
-import Valueobjects.Changelog;
-import Valueobjects.Item;
+import valueObjects.Changelog;
+import valueObjects.Item;
 
 public class ChangelogManager {
 

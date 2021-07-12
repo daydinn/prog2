@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import java.util.*;
 
-import Exceptions.InvalidNameChangelogException;
+import exceptions.InvalidNameChangelogException;
 import Persistence.FilePersistenceManager;
 import Persistence.PersistenceManager;
-import Valueobjects.Changelog;
-import Valueobjects.Customer;
-import Valueobjects.Employee;
-import Valueobjects.Item;
+import valueObjects.Changelog;
+import valueObjects.Customer;
+import valueObjects.Employee;
+import valueObjects.Item;
 
 public class UserManager {
 

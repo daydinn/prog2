@@ -6,7 +6,7 @@ import java.util.List;
 
 import domain.UserManager;
 
-public class CustomerManagement { //klasse f�r die kunden
+public class CustomerManagement extends domain.UserManager{ //klasse f�r die kunden
 
   private String datei = "";
   private UserManager userManager;

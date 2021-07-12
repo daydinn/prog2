@@ -10,31 +10,25 @@ import valueObjects.Item;
 
 public class Client implements interfaces.ShopInterface {
 	
+	Socket clientSocket;
 	PrintWriter pr;
 	InputStreamReader in;
 	BufferedReader bf;
-	ObjectOutputStream oos;
-	ObjectInputStream ois;
+	//ObjectOutputStream oos;
+	//ObjectInputStream ois;
 
 	
-	/*   TODO change from main to constructor for better usability
-	 */
-	public static void main(String args[]) throws IOException {
-		Client clientObj = new Client();
-		Socket clientSocket = new Socket("localhost", 4999);
-
-		PrintWriter pr = new PrintWriter(clientSocket.getOutputStream());
-		pr.println("is it working?");
+	public Client(int port) throws IOException{
+		clientSocket = new Socket("localhost", port);
+		
+		pr = new PrintWriter(clientSocket.getOutputStream());
+		pr.println("Connection Established.");
 		pr.flush();
-
-		InputStreamReader in = new InputStreamReader(clientSocket.getInputStream());
-		BufferedReader bf = new BufferedReader(in);
-
-		String str = bf.readLine();
-		System.out.println("server: " + str);
-
-        ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
-		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+		
+		in = new InputStreamReader(clientSocket.getInputStream());
+		bf = new BufferedReader(in);
+		
+		System.out.println("Server: " + bf.readLine());
 	}
 
 	// -----------------------------------------------USERMANAGER-------------------------------------------------------//
@@ -49,9 +43,21 @@ public class Client implements interfaces.ShopInterface {
 	public void add(Customer c) throws IOException {
 		pr.println("add customer");
 		pr.flush();
+		/*
 		oos.writeObject(c);
 		oos.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
+		*/
+		pr.println(c.getCustomerNr());
+		pr.flush();
+		pr.println(c.getUsername());
+		pr.flush();
+		pr.println(c.getPassword());
+		pr.flush();
+		pr.println(c.getFirstname());
+		pr.flush();
+		pr.println(c.getLastname());
+		pr.flush();
+		pr.println(c.getAdress());
 		pr.flush();
 	}
 
@@ -65,8 +71,6 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(cNumber);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 	}
 
 	/**
@@ -78,9 +82,21 @@ public class Client implements interfaces.ShopInterface {
 	public void add(Employee e) throws IOException {
 		pr.println("add employee");
 		pr.flush();
+		/*
 		oos.writeObject(e);
 		oos.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
+		*/
+		pr.println(e.getEmployeeNr());
+		pr.flush();
+		pr.println(e.getUsername());
+		pr.flush();
+		pr.println(e.getPassword());
+		pr.flush();
+		pr.println(e.getFirstname());
+		pr.flush();
+		pr.println(e.getLastname());
+		pr.flush();
+		pr.println(e.getEmail());
 		pr.flush();
 	}
 
@@ -93,8 +109,6 @@ public class Client implements interfaces.ShopInterface {
 		pr.println("delete employee");
 		pr.flush();
 		pr.println(eNumber);
-		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
 		pr.flush();
 	}
 
@@ -111,10 +125,15 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(nr);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
-		return (Customer) ois.readObject();
+		int CustomerNr = Integer.parseInt(bf.readLine());
+		String Username = bf.readLine();
+		String Password = bf.readLine();
+		String Firstname = bf.readLine();
+		String Lastname = bf.readLine();
+		String Adress = bf.readLine();
+		
+		return new Customer(Username, Password, Firstname, Lastname, Adress, CustomerNr);
 	}
 
 	/**
@@ -130,10 +149,15 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(nr);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
+
+		int EmployeeNr = Integer.parseInt(bf.readLine());
+		String Username = bf.readLine();
+		String Password = bf.readLine();
+		String Firstname = bf.readLine();
+		String Lastname = bf.readLine();
+		String Email = bf.readLine();
 		
-		return (Employee) ois.readObject();
+		return new Employee(Username, Password, Firstname, Lastname, Email, EmployeeNr);
 	}
 
 	/**
@@ -150,12 +174,19 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(name);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
 		List<Customer> retList = null;//new ArrayList<Customer>();
-		while(ois.readObject() != null) {
-			retList.add((Customer) ois.readObject());
+		
+		while(bf.readLine() != "\u00EB") {
+
+			int CustomerNr = Integer.parseInt(bf.readLine());
+			String Username = bf.readLine();
+			String Password = bf.readLine();
+			String Firstname = bf.readLine();
+			String Lastname = bf.readLine();
+			String Adress = bf.readLine();
+			
+			retList.add(new Customer(Username, Password, Firstname, Lastname, Adress, CustomerNr));
 		}
 		
 		return retList;
@@ -175,12 +206,18 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(name);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
 		List<Employee> retList = null;//new ArrayList<Employee>();
-		while(ois.readObject() != null) {
-			retList.add((Employee) ois.readObject());
+		
+		while(bf.readLine() != "\u00EB") {
+			int EmployeeNr = Integer.parseInt(bf.readLine());
+			String Username = bf.readLine();
+			String Password = bf.readLine();
+			String Firstname = bf.readLine();
+			String Lastname = bf.readLine();
+			String Email = bf.readLine();
+		
+			retList.add(new Employee(Username, Password, Firstname, Lastname, Email, EmployeeNr));
 		}
 		
 		return retList;
@@ -196,13 +233,20 @@ public class Client implements interfaces.ShopInterface {
 	public List<Employee> getEmployeeStock() throws ClassNotFoundException, IOException{
 		pr.println("search employee all");
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
 		List<Employee> retList = null;//new ArrayList<Employee>();
-		while(ois.readObject() != null) {
-			retList.add((Employee) ois.readObject());
+		
+		while(bf.readLine() != "\u00EB") {
+			int EmployeeNr = Integer.parseInt(bf.readLine());
+			String Username = bf.readLine();
+			String Password = bf.readLine();
+			String Firstname = bf.readLine();
+			String Lastname = bf.readLine();
+			String Email = bf.readLine();
+		
+			retList.add(new Employee(Username, Password, Firstname, Lastname, Email, EmployeeNr));
 		}
+		
 		
 		return retList;
 	}
@@ -217,12 +261,19 @@ public class Client implements interfaces.ShopInterface {
 	public List<Customer> getCustomerStock() throws ClassNotFoundException, IOException{
 		pr.println("search customer all");
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
 		List<Customer> retList = null;//new ArrayList<Employee>();
-		while(ois.readObject() != null) {
-			retList.add((Customer) ois.readObject());
+		
+		while(bf.readLine() != "\u00EB") {
+
+			int CustomerNr = Integer.parseInt(bf.readLine());
+			String Username = bf.readLine();
+			String Password = bf.readLine();
+			String Firstname = bf.readLine();
+			String Lastname = bf.readLine();
+			String Adress = bf.readLine();
+			
+			retList.add(new Customer(Username, Password, Firstname, Lastname, Adress, CustomerNr));
 		}
 		
 		return retList;
@@ -240,9 +291,21 @@ public class Client implements interfaces.ShopInterface {
 	public void add(Item i) throws IOException {
 		pr.println("add item");
 		pr.flush();
+		/*
 		oos.writeObject(i);
 		oos.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
+		*/
+		pr.println(i.getName());
+		pr.flush();
+		pr.println(i.getNumber());
+		pr.flush();
+		pr.println(i.getPrice());
+		pr.flush();
+		pr.println(i.getStock());
+		pr.flush();
+		pr.println(i.getminimumStock());
+		pr.flush();
+		pr.println(i.getBulk());
 		pr.flush();
 	}
 
@@ -255,8 +318,6 @@ public class Client implements interfaces.ShopInterface {
 		pr.println("delete item");
 		pr.flush();
 		pr.println(number);
-		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
 		pr.flush();
 	}
 
@@ -273,12 +334,18 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(name);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
 		List<Item> retList = null;//new ArrayList<Customer>();
-		while(ois.readObject() != null) {
-			retList.add((Item) ois.readObject());
+		while(bf.readLine() != "\u00EB") {
+
+			String iname = bf.readLine();
+			int number = Integer.parseInt(bf.readLine());
+			double price = Double.parseDouble(bf.readLine());
+			int stock = Integer.parseInt(bf.readLine());
+			int minimumStock = Integer.parseInt(bf.readLine());
+			int bulk = Integer.parseInt(bf.readLine());
+			
+			retList.add(new Item(iname, number, price, stock, minimumStock, bulk));
 		}
 		
 		return retList;
@@ -297,10 +364,15 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(nr);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
-		return (Item) ois.readObject();
+		String iname = bf.readLine();
+		int number = Integer.parseInt(bf.readLine());
+		double price = Double.parseDouble(bf.readLine());
+		int stock = Integer.parseInt(bf.readLine());
+		int minimumStock = Integer.parseInt(bf.readLine());
+		int bulk = Integer.parseInt(bf.readLine());
+		
+		return new Item(iname, number, price, stock, minimumStock, bulk);
 	}
 
 	/**
@@ -313,12 +385,18 @@ public class Client implements interfaces.ShopInterface {
 	public List<Item> getItemStock() throws ClassNotFoundException, IOException{
 		pr.println("search item all");
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
-		List<Item> retList = null;//new ArrayList<Employee>();
-		while(ois.readObject() != null) {
-			retList.add((Item) ois.readObject());
+		List<Item> retList = null;//new ArrayList<Customer>();
+		while(bf.readLine() != "\u00EB") {
+
+			String iname = bf.readLine();
+			int number = Integer.parseInt(bf.readLine());
+			double price = Double.parseDouble(bf.readLine());
+			int stock = Integer.parseInt(bf.readLine());
+			int minimumStock = Integer.parseInt(bf.readLine());
+			int bulk = Integer.parseInt(bf.readLine());
+			
+			retList.add(new Item(iname, number, price, stock, minimumStock, bulk));
 		}
 		
 		return retList;
@@ -335,10 +413,44 @@ public class Client implements interfaces.ShopInterface {
 	public void add(Changelog c) throws IOException {
 		pr.println("add changelog");
 		pr.flush();
+		/*
 		oos.writeObject(c);
 		oos.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
+		*/
+		pr.println(c.getTyp());
 		pr.flush();
+		pr.println(c.getMessage());
+		pr.flush();
+		pr.println(c.getTime());
+		pr.flush();
+		
+		if(c.getTyp()) {
+			pr.println(c.getEmployee().getEmployeeNr());
+			pr.flush();
+			pr.println(c.getEmployee().getUsername());
+			pr.flush();
+			pr.println(c.getEmployee().getPassword());
+			pr.flush();
+			pr.println(c.getEmployee().getFirstname());
+			pr.flush();
+			pr.println(c.getEmployee().getLastname());
+			pr.flush();
+			pr.println(c.getEmployee().getEmail());
+			pr.flush();
+		}else {
+			pr.println(c.getCustomer().getCustomerNr());
+			pr.flush();
+			pr.println(c.getCustomer().getUsername());
+			pr.flush();
+			pr.println(c.getCustomer().getPassword());
+			pr.flush();
+			pr.println(c.getCustomer().getFirstname());
+			pr.flush();
+			pr.println(c.getCustomer().getLastname());
+			pr.flush();
+			pr.println(c.getCustomer().getAdress());
+			pr.flush();
+		}
 	}
 
 	/**
@@ -351,12 +463,35 @@ public class Client implements interfaces.ShopInterface {
 	public List<Changelog> getChangelog() throws ClassNotFoundException, IOException{
 		pr.println("search changelog all");
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
 		List<Changelog> retList = null;//new ArrayList<Employee>();
-		while(ois.readObject() != null) {
-			retList.add((Changelog) ois.readObject());
+		while(bf.readLine() != "\u00EB") {
+			boolean type = Boolean.parseBoolean(bf.readLine());
+			String message = bf.readLine();
+			String time = bf.readLine();
+			if(type) {
+				int EmployeeNr = Integer.parseInt(bf.readLine());
+				String Username = bf.readLine();
+				String Password = bf.readLine();
+				String Firstname = bf.readLine();
+				String Lastname = bf.readLine();
+				String Email = bf.readLine();
+				
+				Employee e = new Employee(Username, Password, Firstname, Lastname, Email, EmployeeNr);
+				
+				retList.add(new Changelog(e, message, type, time));
+			}else {
+				int CustomerNr = Integer.parseInt(bf.readLine());
+				String Username = bf.readLine();
+				String Password = bf.readLine();
+				String Firstname = bf.readLine();
+				String Lastname = bf.readLine();
+				String Adress = bf.readLine();
+				
+				Customer c = new Customer(Username, Password, Firstname, Lastname, Adress, CustomerNr);
+				
+				retList.add(new Changelog(c, message, type, time));
+			}
 		}
 		
 		return retList;
@@ -376,12 +511,35 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(name);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
-		List<Changelog> retList = null;//new ArrayList<Customer>();
-		while(ois.readObject() != null) {
-			retList.add((Changelog) ois.readObject());
+		List<Changelog> retList = null;//new ArrayList<Employee>();
+		while(bf.readLine() != "\u00EB") {
+			boolean type = Boolean.parseBoolean(bf.readLine());
+			String message = bf.readLine();
+			String time = bf.readLine();
+			if(type) {
+				int EmployeeNr = Integer.parseInt(bf.readLine());
+				String Username = bf.readLine();
+				String Password = bf.readLine();
+				String Firstname = bf.readLine();
+				String Lastname = bf.readLine();
+				String Email = bf.readLine();
+				
+				Employee e = new Employee(Username, Password, Firstname, Lastname, Email, EmployeeNr);
+				
+				retList.add(new Changelog(e, message, type, time));
+			}else {
+				int CustomerNr = Integer.parseInt(bf.readLine());
+				String Username = bf.readLine();
+				String Password = bf.readLine();
+				String Firstname = bf.readLine();
+				String Lastname = bf.readLine();
+				String Adress = bf.readLine();
+				
+				Customer c = new Customer(Username, Password, Firstname, Lastname, Adress, CustomerNr);
+				
+				retList.add(new Changelog(c, message, type, time));
+			}
 		}
 		
 		return retList;
@@ -402,9 +560,32 @@ public class Client implements interfaces.ShopInterface {
 		pr.flush();
 		pr.println(nr);
 		pr.flush();
-		pr.println("\u00EB"); //character that's not on most english/german keyboards to signify end of input
-		pr.flush();
 		
-		return (Changelog) ois.readObject();
+		boolean type = Boolean.parseBoolean(bf.readLine());
+		String message = bf.readLine();
+		String time = bf.readLine();
+		if(type) {
+			int EmployeeNr = Integer.parseInt(bf.readLine());
+			String Username = bf.readLine();
+			String Password = bf.readLine();
+			String Firstname = bf.readLine();
+			String Lastname = bf.readLine();
+			String Email = bf.readLine();
+			
+			Employee e = new Employee(Username, Password, Firstname, Lastname, Email, EmployeeNr);
+			
+			return new Changelog(e, message, type, time);
+		}else {
+			int CustomerNr = Integer.parseInt(bf.readLine());
+			String Username = bf.readLine();
+			String Password = bf.readLine();
+			String Firstname = bf.readLine();
+			String Lastname = bf.readLine();
+			String Adress = bf.readLine();
+			
+			Customer c = new Customer(Username, Password, Firstname, Lastname, Adress, CustomerNr);
+			
+			return new Changelog(c, message, type, time);
+		}
 	}
 }
