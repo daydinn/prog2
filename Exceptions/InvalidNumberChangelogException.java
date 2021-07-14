@@ -1,5 +1,10 @@
 package Exceptions;
 
+/**
+ * Used by: SearchChangelogNr 
+ *
+ *
+ */
 public class InvalidNumberChangelogException extends Exception {
 	
 	public InvalidNumberChangelogException() {

@@ -19,21 +19,14 @@ public class Item {
   }
 
   /**
-   *Description: If the inventory of the item is less than 0, the item is classified as "not available" and returns false, otherwise true.
-   * 
-   * 
-   * 
+   * Description: This method specifies how an item should be output as a string in the Consol.
    */
-  public boolean available(Item i) {
-    if (i.getStock() < 0) {
-      return false;
-    } else {
-      return true;
-    }
+  public String toString() {
+    return ("Name: " + name + " | Number: " + number + " | Price: " + price + " | Stock: " + stock + " | Bulk: " + bulk);
   }
 
   /**
-   * Description : Compares 2 items, if the other item is an instance of the item, the item number then the numbers are equated,otherwise it gives false.
+   * Description: Compares two items, if the other item is an instance of the item, the item number then the numbers are equated,otherwise it gives false.
    * 
    */
   public boolean euqals(Object otherItem) {
@@ -44,13 +37,6 @@ public class Item {
       return false;
     }
 
-  }
-
-  /**
-   * Description: This method specifies how an item should be output as a string in the Consol.
-   */
-  public String toString() {
-    return ("Name: " + name + " | Number: " + number + " | Price: " + price + " | Stock: " + stock + " | Bulk: " + bulk);
   }
 
   //getter und Setter

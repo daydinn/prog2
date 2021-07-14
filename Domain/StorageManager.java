@@ -8,6 +8,11 @@ import Persistence.FilePersistenceManager;
 import Persistence.PersistenceManager;
 import Valueobjects.Item;
 
+/**
+ * Description: UserManager is the class for all user function, has a list of all Items and uses a PersistenceManager object for reading and writing
+ * Used by: Storage
+ *
+ */
 public class StorageManager {
 
   private List < Item > itemStock = new ArrayList < Item > ();
@@ -28,7 +33,7 @@ public class StorageManager {
   }
 
   /**
-   * Deschribtion: uses Persistence Manager to write the current stock from the Storage to the Storage File.
+   * Description: uses Persistence Manager to write the current stock to the file
    * @param String datei
    * @throws IOException
    */
@@ -44,17 +49,17 @@ public class StorageManager {
 
   }
   /**
-   * adds an item to the inventory
-   * @param a
+   * Description: adds an item to the inventory
+   * @param i
    */
 
   public void add(Item i) {
 
-   itemStock.add(i);
+    itemStock.add(i);
   }
 
   /**
-   * deletes an item that has the given number
+   * Description: deletes an item that has the given number
    * @param nummer
    */
   public void delete(int number) {
@@ -68,7 +73,7 @@ public class StorageManager {
   }
 
   /**
-   * Searches the item inventory for a name
+   * Description: searches the item inventory for a name
    * @param name
    * @return a list of search results
    */
@@ -86,9 +91,9 @@ public class StorageManager {
     return searchResult;
   }
   /**
-   * searches the list for the given item number
+   * Description: searches the list for the given item number
    * @param nr
-   * @return
+   * @return searchResult
    */
   public List < Item > searchItemNr(int nr) {
 
@@ -105,7 +110,7 @@ public class StorageManager {
   }
 
   /**
-   * returns a list of the item inventory
+   * Description: returns a list of the item inventory
    * @return
    */
   public List < Item > getItemStock() {

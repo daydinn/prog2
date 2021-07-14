@@ -9,11 +9,17 @@ public class Employee {
   private String lastname;
   private String email;
 
-  
-
-  
+  /**
+   * 
+   * @param username
+   * @param password
+   * @param firstname
+   * @param lastname
+   * @param email
+   * @param EmployeeNr
+   */
   public Employee(String username, String password, String firstname, String lastname, String email, int EmployeeNr) {
-    
+
     this.EmployeeNr = EmployeeNr;
     this.username = username;
     this.password = password;
@@ -21,14 +27,8 @@ public class Employee {
     this.lastname = lastname;
     this.email = email;
 
-    
-    
-    
-    
-    
- //Getter and Setter
-    
-    
+    //Getter and Setter
+
   }
   public int getEmployeeNr() {
     return EmployeeNr;

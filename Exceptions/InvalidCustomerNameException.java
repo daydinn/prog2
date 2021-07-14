@@ -1,5 +1,10 @@
 package Exceptions;
 
+/**
+ * Used by: CheckNameCustomer
+ * 
+ *
+ */
 public class InvalidCustomerNameException extends Exception{
 
 	public InvalidCustomerNameException() {

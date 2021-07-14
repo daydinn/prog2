@@ -1,6 +1,10 @@
 package Exceptions;
 
-
+/**
+ * Used by: CheckCartSearch
+ * 
+ *
+ */
 public class InvalidCartNameException extends Exception{
 
 	

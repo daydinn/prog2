@@ -9,8 +9,17 @@ public class Customer {
   private String lastname;
   private String adress;
 
+  /**
+   * Constructor
+   * @param username
+   * @param password
+   * @param firstname
+   * @param lastname
+   * @param adress
+   * @param CustomerNr
+   */
   public Customer(String username, String password, String firstname, String lastname, String adress, int CustomerNr) {
-   
+
     this.CustomerNr = CustomerNr;
     this.username = username;
     this.password = password;
@@ -18,11 +27,8 @@ public class Customer {
     this.lastname = lastname;
     this.adress = adress;
 
-  
-  
-  //Getter and Setter
-  
-  
+    //Getter and Setter
+
   }
   public int getCustomerNr() {
     return CustomerNr;
@@ -73,7 +79,7 @@ public class Customer {
   }
 
   /**
-   * Beschreibung: This method specifies how a customer should be output as a string
+   * Description: This method specifies how a customer should be output as a string
    */
   public String toString() {
     return ("Username: " + username + " | Password: " + password + " | Firstname: " + firstname + " | Lastname: " + lastname + " | Adress: " + adress + "  | CustomerNr: " + CustomerNr);

@@ -1,5 +1,10 @@
 package Exceptions;
 
+/**
+ * Used by: CheckNumberEmployee
+ * 
+ *
+ */
 public class InvalidEmployeeNumberException extends Exception {
 
 	public InvalidEmployeeNumberException() {

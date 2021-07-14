@@ -6,8 +6,11 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-
-
+/**
+ * 
+ * Description: Changelog is the class for reports in console
+ * typ= true --> Employee   typ= false -->Customer
+ */
 public class Changelog {
 
   private Employee e;
@@ -16,12 +19,12 @@ public class Changelog {
   private boolean typ; //true: Employee | false: Customer
   private String Time;
 
-  //Class about user actions and reports in eshop
-  
-  /** 
-   * Constructor for creating a new changelog as an customer
-   * 
-   * */
+  /**
+   * Description: Constructor for creating a new changelog for an customer
+   * @param c
+   * @param message
+   * @param typ
+   */
   public Changelog(Customer c, String message, boolean typ) {
     this.c = c;
     this.message = message;
@@ -32,11 +35,11 @@ public class Changelog {
     this.Time = Time;
   }
 
-  
-  
-  /***
-   * Constructor for creating a new changelog as an employee
-   *  
+  /**
+   * Description: Constructor for creating a new changelog for an employee
+   * @param e
+   * @param message
+   * @param typ
    */
   public Changelog(Employee e, String message, boolean typ) {
     this.e = e;
@@ -48,12 +51,12 @@ public class Changelog {
     this.Time = Time;
   }
 
-  
-  
   /**
-   *Constructor for loading the changelog from a file.
-   * 
-   *
+   * Description: Constructor for loading the changelog from a file.
+   * @param e
+   * @param message
+   * @param typ
+   * @param Time
    */
   public Changelog(Employee e, String message, boolean typ, String Time) {
     this.e = e;
@@ -62,11 +65,12 @@ public class Changelog {
     this.Time = Time;
   }
 
-  
-  
   /**
-   * Constructor for loading the changelog from a file.
-   * 
+   * Description: Constructor for loading the changelog from a file.
+   * @param c
+   * @param message
+   * @param typ
+   * @param Time
    */
   public Changelog(Customer c, String message, boolean typ, String Time) {
     this.c = c;
@@ -76,7 +80,7 @@ public class Changelog {
   }
 
   /**
-   * This method specifies how a changelog should be output as a string in the console.
+   * Description: This method specifies how a changelog should be output as a string in the console.
    */
   public String toString() {
     return ("report: " + message);
@@ -105,4 +109,3 @@ public class Changelog {
   }
 
 }
-

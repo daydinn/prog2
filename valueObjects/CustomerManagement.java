@@ -6,16 +6,23 @@ import java.util.List;
 
 import Domain.UserManager;
 
-public class CustomerManagement { //klasse für die kunden
+
+/**
+ * Description:CustomerManagement serves as a connection point  between the person manager and the GUI, uses a usermanager object for functions
+ *
+ *
+ */
+public class CustomerManagement { 
 
   private String datei = "";
   private UserManager userManager;
 
-  /**
-   * Customermanagement is the connection point  between the person manager and the GUI. He takes care of the customers
-   * @throws IOException
-   */
-
+ 
+/**
+ * Constructor
+ * @param datei
+ * @throws IOException
+ */
   public CustomerManagement(String datei) throws IOException {
     this.datei = datei;
    userManager = new UserManager();
@@ -23,7 +30,7 @@ public class CustomerManagement { //klasse für die kunden
   }
 
   /**
-   * Description: calls the user manager, then it writes customers into the file,so it is saved.
+   * Description: calls the user manager, then it writes customers into the file to save them.
    * @throws IOException
    */
   public void writeCustomers() throws IOException {
@@ -39,7 +46,7 @@ public class CustomerManagement { //klasse für die kunden
   }
 
   /**
-   * Description: gives a  number with which an customer can be searched for
+   * Description: Calls the usermanager and to search customers 
    * @param nr
    * @return returns the list of customers with the searched number
    */
@@ -48,12 +55,12 @@ public class CustomerManagement { //klasse für die kunden
   }
   
   
+  
   /**
    * Description: gives a name parameter with which an customer can be searched for
    * @param name
    * @return returns the list of customers with the searched name
    */
-  
  public List < Customer > searchByName(String name) {
  return userManager.searchCustomerName(name);
  }
@@ -72,11 +79,16 @@ public class CustomerManagement { //klasse für die kunden
     return userManager.getCustomerStock();
   }
 
-  /**
-   * Description: add a new customer with the given parameters and forwards the new employee to the user manager.
-   * 
-   * @return c
-   */
+ /**
+  * Description: add a new customer with the given parameters and forwards the new employee to the user manager.
+  * @param username
+  * @param password
+  * @param firstname
+  * @param lastname
+  * @param adress
+  * @param customerNr
+  * @return
+  */
   public Customer addACustomer(String username, String password, String firstname, String lastname, String adress, int customerNr) {
     Customer c = new Customer(username, password, firstname, lastname, adress, customerNr);
     userManager.add(c);

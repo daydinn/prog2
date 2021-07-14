@@ -7,7 +7,6 @@ package GUI;
  * @author ryans
  */
 
-
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -88,7 +87,7 @@ public class ShopClientGUI extends JFrame {
   private List < Customer > clist;
   private List < Employee > elist;
   static List < String > log = new ArrayList < String > ();
- 
+
   private static Storage storage;
   private static EmployeeManagement employeeManagement;
   private static CustomerManagement customerManagement;
@@ -171,14 +170,12 @@ public class ShopClientGUI extends JFrame {
   private JLabel labelAdresse1;
   private Object tabelleFeld;
 
-
-
   /**
    * Description: starts the program. Creates the GUI. Saves all lists before the program is closed.
    * 
    */
   public static void main(String[] args) {
-	 
+
     ShopClientGUI gui;
 
     gui = new ShopClientGUI("It", "Emp", "Cus", "Log");
@@ -816,7 +813,7 @@ public class ShopClientGUI extends JFrame {
       //Funktion zum öffnen eines neuen Fensters, um artikel zu sortieren zu können
       public void actionPerformed(ActionEvent e) {
 
-        updateTabelle(sortNumberItemList(storage.getAllItems())); //sortiert die Tabelle für die Artikel
+        updateTabelle(storage.sortNumberItemList(storage.getAllItems())); //sortiert die Tabelle für die Artikel
       }
     });
     ItemSoNum.setBounds(420, 120, 130, 20);
@@ -834,7 +831,7 @@ public class ShopClientGUI extends JFrame {
 
       public void actionPerformed(ActionEvent e) {
 
-        updateTabelle(sortNameItemList(storage.getAllItems())); // sorts the table for the items
+        updateTabelle(storage.sortNameItemList(storage.getAllItems())); // sorts the table for the items
 
       }
     });
@@ -1144,7 +1141,7 @@ public class ShopClientGUI extends JFrame {
     JButton searchbyDatebtn = new JButton("Sort by Date");
     searchbyDatebtn.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        updateChangelogTable(sortDateChangelogliste(logmanager.getChangelog()));
+        updateChangelogTable(logmanager.sortDateChangelogliste(logmanager.getChangelog()));
       }
     });
     searchbyDatebtn.setBounds(30, 237, 180, 23);
@@ -1975,7 +1972,7 @@ public class ShopClientGUI extends JFrame {
 
       // Function to open a new window to be able to sort items
       public void actionPerformed(ActionEvent e) {
-        updateItemTable(sortNumberItemList(storage.getAllItems()));
+        updateItemTable(storage.sortNumberItemList(storage.getAllItems()));
       }
     });
     sortItembyNrbtn.setBounds(450, 115, 160, 23);
@@ -1991,7 +1988,7 @@ public class ShopClientGUI extends JFrame {
       // Function to open a new window to be able to sort items
 
       public void actionPerformed(ActionEvent e) {
-        updateItemTable(sortNameItemList(storage.getAllItems()));
+        updateItemTable(storage.sortNameItemList(storage.getAllItems()));
       }
     });
     sortItembyNamebtn.setBounds(273, 115, 160, 23);
@@ -2005,7 +2002,7 @@ public class ShopClientGUI extends JFrame {
     showItemsbtn.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         updateItemTable(storage.getAllItems());
-        
+
       }
     });
     showItemsbtn.setBounds(70, 250, 126, 23);
@@ -2051,37 +2048,82 @@ public class ShopClientGUI extends JFrame {
         int iNum;
         itemNumber = itemNrtext.getText();
         iNum = Integer.parseInt(itemNumber);
-
+        int x = 0; //0 if item is not already in cart & if item is already in cart
         String iAmount = "";
-
         int iAmo = (Integer) spinnerAmount.getValue();
 
-        try {
-          if (checkCart(iNum, iAmo)) {
-            cart.addItem(iNum, iAmo);
-            cart.output();
-            WrongItemlbl4.setForeground(Color.BLACK);
-            WrongItemlbl4.setText("Item added.");
+        for (cartItem ti: cart.getCart()) {
+          if (ti.getItem().getNumber() == iNum) {
+            x = 1; //set x to 1 if the item is in the cart
+          }
+        }
 
+        switch (x) {
+        case 0: //if item is not in cart
+
+          try {
+            if (checkCart(iNum, iAmo)) {
+              cart.addItem(iNum, iAmo);
+              cart.output();
+              WrongItemlbl4.setForeground(Color.BLACK);
+              WrongItemlbl4.setText("Item added.");
+
+              itemNrtext.setText(null);
+              spinnerAmount.setValue((Integer) 0);
+              logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "The Item: " + iNum + "has been added  " + iAmo + "times to the Cart", false));
+
+              // function to load in the table
+
+              updateCustomerCartTable(cart.getCart());
+            }
+          } catch (InvalidCartException ex) {
+            WrongItemlbl4.setForeground(Color.RED);
+            WrongItemlbl4.setText("     Uncorrect Entry!");
             itemNrtext.setText(null);
             spinnerAmount.setValue((Integer) 0);
-            logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "The Item: " + iNum + "has been added  " + iAmo + "times to the Cart", false));
-
-            // function to load in the table
-
-            updateCustomerCartTable(cart.getCart());
+            logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "Incorrect entry while adding to shopping cart", false));
+            System.out.println(ex.getMessage());
           }
-        } catch (InvalidCartException ex) {
-          WrongItemlbl4.setForeground(Color.RED);
-          WrongItemlbl4.setText("     Uncorrect Entry!");
-          itemNrtext.setText(null);
-          spinnerAmount.setValue((Integer) 0);
-          logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "Incorrect entry while adding to shopping cart", false));
-          System.out.println(ex.getMessage());
+
+          break;
+
+        case 1: //if item is alreary in cart
+          try {
+            if (checkCart(iNum, iAmo)) {
+              for (cartItem ti: cart.getCart()) {
+                if (ti.getItem().getNumber() == iNum) {
+                  ti.setAmount(ti.getAmount() + iAmo);
+                  cart.output();
+
+                }
+              }
+
+              itemNrtext.setText(null);
+              spinnerAmount.setValue((Integer) 0);
+              logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "The Item: " + iNum + "has been added  " + iAmo + "times to the Cart", false));
+
+              // function to load in the table
+
+              updateCustomerCartTable(cart.getCart());
+            }
+          } catch (InvalidCartException ex) {
+
+            WrongItemlbl4.setForeground(Color.RED);
+            WrongItemlbl4.setText("     Uncorrect Entry!");
+            itemNrtext.setText(null);
+            spinnerAmount.setValue((Integer) 0);
+            logmanager.add(new Changelog(customerManagement.searchByNumber(currentCustomer).get(0), "Incorrect entry while adding to shopping cart", false));
+            System.out.println(ex.getMessage());
+          }
+
+          break;
+
         }
 
       }
+
     });
+
     addItembtn.setBounds(49, 229, 152, 23);
     addItembtn.setBackground(new Color(255, 204, 153));
     addItembtn.setForeground(new Color(102, 51, 0));
@@ -2335,7 +2377,7 @@ public class ShopClientGUI extends JFrame {
               e1.printStackTrace();
             }
             totalPriceNumberlbl.setText(null);
-           updateCustomerCartTable(cart.getCart());
+            updateCustomerCartTable(cart.getCart());
             updateItemTable(storage.getAllItems());
           }
         });
@@ -2561,7 +2603,7 @@ public class ShopClientGUI extends JFrame {
 
       public void actionPerformed(ActionEvent e) {
         updateCustomerCartTable(cart.getCart());
-        
+
       }
     });
     showItemsBtn.setBounds(200, 200, 141, 23);
@@ -2583,10 +2625,6 @@ public class ShopClientGUI extends JFrame {
     logoutbtn.setBackground(new Color(255, 128, 128));
     logoutbtn.setFont(new Font("SansSerif", Font.PLAIN, 18));
     CustomerMenuFrame.getContentPane().add(logoutbtn);
-
-  
-
-    
 
   }
 
@@ -3146,7 +3184,7 @@ public class ShopClientGUI extends JFrame {
             // TODO Auto-generated catch block
             e1.printStackTrace();
           }
-         logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "Employee : " + username + " | " + employeeNr + " has been registered.", true));
+          logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "Employee : " + username + " | " + employeeNr + " has been registered.", true));
           shopEmployeeRegistrationFrame.setVisible(false);
           System.out.println("A new employee has been created.");
           if (!b) {
@@ -3184,70 +3222,6 @@ public class ShopClientGUI extends JFrame {
   }
 
   //------------------------------------Sorting methods------------------------------------------------
-
-  /**
-   * used by: employee menu & customer menu
-   * Description: Sorts the item list by name with the help of a comparator
-   * 
-   * @param list is the list you want to be sorted
-   * @return is the sorting list
-   */
-  private List < Item > sortNameItemList(List < Item > list) {
-    if (list.isEmpty()) {
-      System.out.println("List is empty.");
-    } else {
-
-      Collections.sort(list, new Comparator < Item > () {
-        @Override
-        public int compare(Item u1, Item u2) {
-          return u1.getName().compareTo(u2.getName());
-        }
-      });
-
-    }
-    return list;
-  }
-
-  /**
-   * used by: employee menu & customer menu
-   * Description: Sorts the item list by number with the help of a comparator
-   * @param list is the item list
-   * @return returns the sort list
-   */
-  private List < Item > sortNumberItemList(List < Item > list) {
-    if (list.isEmpty()) {
-      System.out.println("List is empty .");
-    } else {
-
-      Collections.sort(list, new Comparator < Item > () {
-        @Override
-        public int compare(Item u1, Item u2) {
-
-          int x = Integer.compare(u1.getNumber(), u2.getNumber());
-
-          return x;
-        }
-      });
-
-    }
-    return list;
-  }
-
-  private List < Changelog > sortDateChangelogliste(List < Changelog > liste) {
-    if (liste.isEmpty()) {
-      System.out.println("List is empty .");
-    } else {
-
-      Collections.sort(liste, new Comparator < Changelog > () {
-        @Override
-        public int compare(Changelog u1, Changelog u2) {
-          return u1.getTime().compareTo(u2.getTime());
-        }
-      });
-
-    }
-    return liste;
-  }
 
   //---------------------------------------------Table Methods---------------------------------------------
 

@@ -12,68 +12,66 @@ import Valueobjects.Customer;
 import Valueobjects.Employee;
 import Valueobjects.Item;
 
+/**
+ * 
+ * Description: is the class for all user functions, has the lists for users and employees and an persistencemanager object to read and write.
+ * Used by: EmployeeManagement,CustomerManagement
+ *
+ */
 public class UserManager {
 
-  /**
-   * Description: is a manager class, which contains both customer and employee methods
-   * 
-   *
-   */
-
-  private List <Employee > employeeStock = new ArrayList < Employee > ();
-  private List <Customer > customerStock = new ArrayList <Customer> ();
-  private PersistenceManager um = new FilePersistenceManager();
+  private List < Employee > employeeStock = new ArrayList < Employee > ();
+  private List < Customer > customerStock = new ArrayList < Customer > ();
+  private PersistenceManager pm = new FilePersistenceManager();
 
   /**
-   *Description: calls Persistencemanager to read the file in which the customers are
+   * Description: calls Persistencemanager to read the file in which the customers are saved
    * @param datei
    * @throws IOException
    */
   public void readCustomers(String datei) throws IOException {
 
-	 um.openForReading(datei);
+    pm.openForReading(datei);
     Customer c;
 
     do {
-      c = um.loadCustomer();
+      c = pm.loadCustomer();
       if (c != null) {
         add(c);
       }
     } while (c != null);
 
   }
+
   /**
-   *Description: calls Persistencemanager to write the customers to the file
+   * Description: calls Persistencemanager to write  customers to the file
    * @param datei
    * @throws IOException
    */
-  
-  
-  
   public void writeCustomers(String datei) throws IOException {
 
-	  um.openForWriting(datei);
+    pm.openForWriting(datei);
 
     for (Customer c: customerStock) {
-    	um.saveCustomer(c);
+      pm.saveCustomer(c);
     }
 
-    um.close();
+    pm.close();
 
   }
 
   /**
-   *Description: calls Persistencemanager to read the file in which the employees are
+   * Description: calls Persistencemanager to read a file in which the employees are saved
    * @param datei
    * @throws IOException
    */
   public void readEmployees(String datei) throws IOException {
 
-	  um.openForReading(datei);
+    pm.openForReading(datei);
     Employee e;
 
     do {
-      e = um.loadEmployee();
+      e = pm.loadEmployee();
       if (e != null) {
         add(e);
       }
@@ -82,33 +80,32 @@ public class UserManager {
   }
 
   /**
-   *Description: calls Persistencemanager to write the employee to the file
+   * Description: calls Persistencemanager to write employees to the file
    * @param datei
    * @throws IOException
    */
   public void writeEmployees(String datei) throws IOException {
 
-	  um.openForWriting(datei);
+    pm.openForWriting(datei);
 
     for (Employee e: employeeStock) {
-    	um.saveEmployee(e);
+      pm.saveEmployee(e);
     }
 
-    um.close();
+    pm.close();
 
   }
- 
 
   /**
-   *Description: adds a customer to Customer Stock
+   * Description: adds a customer to the Customer Stock
    * @param k
    */
   public void add(Customer c) {
-   customerStock.add(c);
+    customerStock.add(c);
   }
 
   /**
-   *Description:  deletes a customer, who has the given number
+   *Description: deletes a customer
    * @param cNumber
    */
   public void cdeleting(int cNumber) {
@@ -122,19 +119,19 @@ public class UserManager {
   }
 
   /**
-   *Description: add a employee to Employee stock
+   * Description: add an employee to the Employee stock
    * @param m
    */
   public void add(Employee e) {
-   employeeStock.add(e);
+    employeeStock.add(e);
   }
 
   /**
-   *Description: deletes a employee, who has the given number
-   * @param mNummer
+   *Description: deletes an employee
+   * @param eNumber
    */
   public void edeleting(int eNumber) {
-    Iterator < Employee > iter =employeeStock.iterator();
+    Iterator < Employee > iter = employeeStock.iterator();
     while (iter.hasNext()) {
       Employee e = iter.next();
       if (e.getEmployeeNr() == eNumber) {
@@ -144,28 +141,28 @@ public class UserManager {
   }
 
   /**
-   *Description: searches in the customer list for a NR
+   * Description: searches in the customer list for a NR
    * @param nr
-   * @return
+   * @return searchResult;
    */
   public List < Customer > searchCustomerNr(int nr) {
 
-    List <Customer> searchResult = new ArrayList < Customer > ();
+    List < Customer > searchResult = new ArrayList < Customer > ();
     Iterator < Customer > iter = customerStock.iterator();
 
     while (iter.hasNext()) {
       Customer c = iter.next();
       if (c.getCustomerNr() == nr) {
-    	  searchResult.add(c);
+        searchResult.add(c);
       }
     }
     return searchResult;
   }
 
   /**
-   *Description: searches in the employee list for a NR
+   * Description: searches in the employee list for a NR
    * @param nr
-   * @return
+   * @return searchResult;
    */
   public List < Employee > searchEmployeeNr(int nr) {
 
@@ -175,79 +172,69 @@ public class UserManager {
     while (iter.hasNext()) {
       Employee e = iter.next();
       if (e.getEmployeeNr() == nr) {
-    	  searchResult.add(e);
+        searchResult.add(e);
       }
     }
     return searchResult;
   }
 
- 
- /**
-   *Description: searches in the customer list for a Name
+  /**
+   * Description: searches in the customer list for a Name
    * @param name
    * @return searchResult
    */
-  
+
   public List < Customer > searchCustomerName(String name) {
 
-	   List < Customer > searchResult = new ArrayList < Customer > ();
-	    Iterator < Customer > iter = customerStock.iterator();
+    List < Customer > searchResult = new ArrayList < Customer > ();
+    Iterator < Customer > iter = customerStock.iterator();
 
-	    while (iter.hasNext()) {
-	     Customer c = iter.next();
+    while (iter.hasNext()) {
+      Customer c = iter.next();
 
-	      if (c.getFirstname().equals(name)) {
-	    	  searchResult.add(c);
-	      }
+      if (c.getFirstname().equals(name)) {
+        searchResult.add(c);
+      }
 
-	     }
-		return searchResult;
-	}
+    }
+    return searchResult;
+  }
 
   /**
-   *Description: searches in the employee list for a Name
+   * Description: searches in the employee list for a name and returns the results
    * @param name
    * @return searchResult
    */
-  
-  public List < Employee > searchEmployeeName(String name)  {
+  public List < Employee > searchEmployeeName(String name) {
 
     List < Employee > searchResult = new ArrayList < Employee > ();
     Iterator < Employee > iter = employeeStock.iterator();
 
     while (iter.hasNext()) {
-     Employee e = iter.next();
+      Employee e = iter.next();
 
       if (e.getFirstname().equals(name)) {
-    	  searchResult.add(e);
+        searchResult.add(e);
       }
 
-     
-
-  
+    }
+    return searchResult;
   }
-	return searchResult;
-}
-  
-  
-  
+
   /**
-   *Description: outputs employees as a list
-   * @return
+   * Description: outputs  all employees as a Arraylist
+   * @return employeeStock
    */
   public List < Employee > getEmployeeStock() {
     return new ArrayList < Employee > (employeeStock);
   }
-  
-  
-  
+
   /**
-   *Description: outputs customers as a list
-   * @return
+   * Description: outputs all customers as a Arraylist
+   * @return customerStocks
    */
   public List < Customer > getCustomerStock() {
     return new ArrayList < Customer > (customerStock);
   }
-
 
 }

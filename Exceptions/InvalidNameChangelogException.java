@@ -1,5 +1,11 @@
 package Exceptions;
 
+/**
+ * Used by searchChangelogName()
+ * 
+ *
+ */
+
 public class InvalidNameChangelogException extends Exception {
 	
 	public InvalidNameChangelogException() {

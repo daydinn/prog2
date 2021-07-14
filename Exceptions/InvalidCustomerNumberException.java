@@ -1,5 +1,10 @@
 package Exceptions;
 
+/**
+ * Used by CheckNumberCustomer
+ * 
+ *
+ */
 public class InvalidCustomerNumberException extends Exception{
 
 	public InvalidCustomerNumberException() {

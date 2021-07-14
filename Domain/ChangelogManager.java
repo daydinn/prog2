@@ -2,6 +2,8 @@ package Domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,14 +14,19 @@ import Persistence.PersistenceManager;
 import Valueobjects.Changelog;
 import Valueobjects.Item;
 
+/**
+ * Description: ChangelogManager is the class for all changelog function, has a list of all Changelogs and uses a PersistenceManager object for reading and writing 
+ * Used by: Gui, Cui
+ *
+ */
 public class ChangelogManager {
 
   private List < Changelog > changelog = new ArrayList < Changelog > ();
   private PersistenceManager pm = new FilePersistenceManager();
 
   /**
-   * Description: reads Data with a FilePersistenceManager Object for Changelog-
-   * @param datei
+   * Description: reads data with filepersistenceManager object
+   * @param file
    * @throws IOException
    */
   public void readData(String file) throws IOException {
@@ -37,7 +44,7 @@ public class ChangelogManager {
   }
 
   /**
-   * Description: The Persistencemanager Object writes the Changelog to the file
+   * Description: writes data to the changelog file with filepersistencemanager object
    * @param datei
    * @throws IOException
    */
@@ -53,7 +60,7 @@ public class ChangelogManager {
   }
 
   /**
-   * Description: add a new Changelog
+   * Description: add a new Changelog and outputs it in the console.
    * @param c
    */
   public void add(Changelog c) {
@@ -62,7 +69,7 @@ public class ChangelogManager {
   }
 
   /**
-   * Gibt den aktuellen Changelog aus
+   *Description: Outputs list where all changelogs are saved
    * @return
    */
   public List < Changelog > getChangelog() {
@@ -70,7 +77,7 @@ public class ChangelogManager {
   }
 
   /**
-   * Description outputs the changelog in the console
+   * Description: outputs the changelog in the console
    */
   public void outputLog() {
     System.out.println(changelog);
@@ -96,7 +103,7 @@ public class ChangelogManager {
         }
       } else { //Typ == False --> Customer
         if (a.getCustomer().getFirstname().equals(name)) {
-        	searchResult.add(a);
+          searchResult.add(a);
         }
       }
     }
@@ -106,59 +113,59 @@ public class ChangelogManager {
     }
     return searchResult;
   }
-  
-  
+
   /**
-   * searches the changelog for a nr and returns all entries with the nr.
+   * Description: searches the changelog for nr and returns all entries with this nr.
    * @param nr
-   * @return
+   * @return searchResult
    * @throws InvalidNumberChangelogException
    */
-  
- 
   public List < Changelog > searchChangelogNr(int nr) throws InvalidNumberChangelogException {
 
-	    List < Changelog > searchResult = new ArrayList < Changelog > ();
-	    Iterator < Changelog > iter = changelog.iterator();
+    List < Changelog > searchResult = new ArrayList < Changelog > ();
+    Iterator < Changelog > iter = changelog.iterator();
 
-	    while (iter.hasNext()) {
-	      Changelog a = iter.next();
-	      if (a.getTyp()) { //Typ == True --> Employee             
-	        if (a.getEmployee().getEmployeeNr() == (nr)) {
-	          searchResult.add(a);
+    while (iter.hasNext()) {
+      Changelog a = iter.next();
+      if (a.getTyp()) { //Typ == True --> Employee             
+        if (a.getEmployee().getEmployeeNr() == (nr)) {
+          searchResult.add(a);
 
-	        }
-	      } else { //Typ == False --> Customer
-	        if (a.getCustomer().getCustomerNr() == (nr)) {
-	        	searchResult.add(a);
-	        }
-	      }
-	    }
+        }
+      } else { //Typ == False --> Customer
+        if (a.getCustomer().getCustomerNr() == (nr)) {
+          searchResult.add(a);
+        }
+      }
+    }
 
-	    if (searchResult.isEmpty()) {
-	      throw new InvalidNumberChangelogException();
-	    }
-	    return searchResult;
-	  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+    if (searchResult.isEmpty()) {
+      throw new InvalidNumberChangelogException();
+    }
+    return searchResult;
+  }
+
+  /**
+   * Description: sorts saved changelogs by date
+   * Used by: Gui
+   * @param list
+   * @return list
+   * 
+   */
+  public List < Changelog > sortDateChangelogliste(List < Changelog > list) {
+    if (list.isEmpty()) {
+      System.out.println("List is empty .");
+    } else {
+
+      Collections.sort(list, new Comparator < Changelog > () {
+        @Override
+        public int compare(Changelog u1, Changelog u2) {
+          return u1.getTime().compareTo(u2.getTime());
+        }
+      });
+
+    }
+    return list;
+  }
 
 }

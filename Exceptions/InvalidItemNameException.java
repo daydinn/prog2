@@ -1,5 +1,10 @@
 package Exceptions;
 
+/**
+ * Used by: checkNameItem, checkName
+ * 
+ *
+ */
 public class InvalidItemNameException extends Exception {
 
 	public InvalidItemNameException() {
