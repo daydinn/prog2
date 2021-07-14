@@ -168,7 +168,9 @@ public class ShopClientGUI extends JFrame {
   private JLabel customerNamelbl;
   private JLabel Adresslbl;
   private JLabel labelAdresse1;
+  private JLabel cartisEmpty;
   private Object tabelleFeld;
+  
 
   /**
    * Description: starts the program. Creates the GUI. Saves all lists before the program is closed.
@@ -454,14 +456,16 @@ public class ShopClientGUI extends JFrame {
 
         // creates a label for the item number 
 
-        JLabel lblArtikelnummer = new JLabel("Itemnumber :");
+        JLabel lblArtikelnummer = new JLabel("Next Nr :");
         lblArtikelnummer.setBounds(37, 120, 96, 14);
         lblArtikelnummer.setForeground(new Color(102, 51, 0));
         addItemMenuFrame.getContentPane().add(lblArtikelnummer);
 
         // creates the text entry for the item number
 
-        textNumber = new JTextField(null);
+        
+        textNumber = new JTextField("" + newNumberItem(storage.getAllItems()));
+        textNumber.setEditable(true);
         textNumber.setColumns(10);
         textNumber.setBounds(37, 145, 37, 20);
         addItemMenuFrame.getContentPane().add(textNumber);
@@ -2043,7 +2047,7 @@ public class ShopClientGUI extends JFrame {
       // creates a function to add goods to the shopping cart
 
       public void actionPerformed(ActionEvent e) {
-
+    	cartisEmpty.setText(null);
         String itemNumber = "";
         int iNum;
         itemNumber = itemNrtext.getText();
@@ -2222,12 +2226,28 @@ public class ShopClientGUI extends JFrame {
     // button "buy" created
 
     JButton buybtn = new JButton("Buy");
+    
+    
+    
+    //button for "cart is empty"
+    
+    cartisEmpty = new JLabel("");
+    cartisEmpty.setForeground(Color.RED);
+    cartisEmpty.setFont(new Font("SansSerif", Font.PLAIN, 17));
+    
+    cartisEmpty.setBounds(565, 790, 200, 35);
+    Cart.add(cartisEmpty);
+    
     buybtn.addActionListener(new ActionListener() {
-
+    
+    	
+    	
+    	
+    
       // function to buy the items
 
       public void actionPerformed(ActionEvent e) {
-
+      if(!cart.getCart().isEmpty()) {
         // creates new window bill when buying
 
         BillFrame = new JFrame();
@@ -2281,25 +2301,25 @@ public class ShopClientGUI extends JFrame {
         // creates label for the editor
 
         Editorlbl = new JLabel("Editor:   ");
-        Editorlbl.setBounds(388, 30, 73, 14);
+        Editorlbl.setBounds(388, 11, 73, 14);
         BillFrame.getContentPane().add(Editorlbl);
 
         // creates label for the name
 
         Namelbl = new JLabel("Helmut Eirund");
-        Namelbl.setBounds(460, 30, 83, 14);
+        Namelbl.setBounds(460, 11, 83, 14);
         BillFrame.getContentPane().add(Namelbl);
 
         // erstellt label für e mail 
 
         Emaillbl = new JLabel("E-Mail:");
-        Emaillbl.setBounds(388, 55, 73, 14);
+        Emaillbl.setBounds(388, 36, 73, 14);
         BillFrame.getContentPane().add(Emaillbl);
 
         // creates label for e mail
 
         nameofEmaillbl = new JLabel("eshop@yahoo.de");
-        nameofEmaillbl.setBounds(460, 55, 133, 14);
+        nameofEmaillbl.setBounds(460, 36, 133, 14);
         BillFrame.getContentPane().add(nameofEmaillbl);
 
         // creates label for Customer nr
@@ -2370,6 +2390,7 @@ public class ShopClientGUI extends JFrame {
             cart.buy();
             cart.empty();
             WrongItemlbl4.setText(null);
+            cartisEmpty.setText(null);
             try {
               storage.writeItems();
             } catch (IOException e1) {
@@ -2384,10 +2405,19 @@ public class ShopClientGUI extends JFrame {
         closebtn.setBounds(265, 664, 70, 23);
         closebtn.setBackground(new Color(255, 204, 153));
         closebtn.setForeground(new Color(102, 51, 0));
-
+        
         BillFrame.getContentPane().add(closebtn);
       }
+      else {
+      cartisEmpty.setText("Cart is empty");
+      
+      }
+      }
+     
+      
     });
+  
+   
     buybtn.setBounds(518, 757, 200, 35);
     buybtn.setBackground(new Color(230, 184, 0));
     buybtn.setFont(new Font("SansSerif", Font.PLAIN, 17));
@@ -3201,11 +3231,19 @@ public class ShopClientGUI extends JFrame {
 
   }
 
+ 
+  //------------------------------------------------------------------All Shop Methods-------------------------------------------------------------
   //--------------------------------------------------------------------------------------------------------------------------------------------
-  //------------------------------------------------------------------ Shop Methods-------------------------------------------------------------
-
+  
+  
   // automatic number assignment
 
+  
+  /**
+   * Description: Automatic number assignment for customer looks all numbers, compare them and gives the next higher number
+   * @param liste
+   * @return
+   */
   public int newNumberCustomer(List < Customer > list) {
     // outputs the highest customer number, it compares all customers in the list with getCustomerNr
     Customer maxByNumber = list.stream().max(Comparator.comparing(Customer::getCustomerNr)).orElseThrow(NoSuchElementException::new);
@@ -3214,15 +3252,38 @@ public class ShopClientGUI extends JFrame {
     // returns the new number
     return newNumber;
   }
-
+  
+  
+  /**
+   * Description: Automatic number assignment for employees looks all numbers, compare them and gives the next higher number
+   * @param liste
+   * @return
+   */
   public int newNumberEmployee(List < Employee > liste) {
     Employee maxByNumber = liste.stream().max(Comparator.comparing(Employee::getEmployeeNr)).orElseThrow(NoSuchElementException::new);
     int newNumber = maxByNumber.getEmployeeNr() + 1;
     return newNumber;
   }
+  
+  
+  
+  /** 
+   * Description:
+   * @param list
+   * @return Automatic number assignment for items, looks all numbers,compare them and gives the next higher number
+   */
+  public int newNumberItem(List <Item> list) {
+  //outputs the highest item number, i	 
+  Item maxByNumber = list.stream().max(Comparator.comparing(Item::getNumber)).orElseThrow(NoSuchElementException:: new);
+  //the highest customer number 
+  int newNumber = maxByNumber.getNumber() +1;
+  //returns the new number
+  return newNumber;
+ 	 
+ 	 
+  }
 
-  //------------------------------------Sorting methods------------------------------------------------
-
+ 
   //---------------------------------------------Table Methods---------------------------------------------
 
   /**

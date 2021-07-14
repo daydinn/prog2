@@ -15,6 +15,7 @@ import Exceptions.InvalidCustomerNameException;
 import Exceptions.InvalidCustomerNumberException;
 import Exceptions.InvalidEmployeeNameException;
 import Exceptions.InvalidEmployeeNumberException;
+import Exceptions.InvalidItemAddException;
 import Exceptions.InvalidItemNameException;
 import Exceptions.InvalidItemNumberException;
 
@@ -60,13 +61,27 @@ public class CUI {
   private List < Item > ilist;
   private List < Customer > clist;
   private List < Employee > elist;
-  private List < Changelog > chlist;
-
+  private List < Changelog > chlist; 
+  
   private static Employee system;
 
   private int currentCustomer;
   private int currentEmployee;
 
+  
+  
+  
+  
+  
+  
+  
+  /**
+   * Description: laods  value objects by reading them from their text files
+   * @param dItems
+   * @param dEmployees
+   * @param dCustomers
+   * @param dLog
+   */
   public CUI(String dItems, String dEmployees, String dCustomers, String dLog) {
 
     try {
@@ -75,7 +90,7 @@ public class CUI {
 
       e.printStackTrace();
     }
-    //changelog.writeData(" Storage has been created");
+    
 
     try {
       employeeManagement = new EmployeeManagement(dEmployees);
@@ -83,7 +98,7 @@ public class CUI {
 
       e.printStackTrace();
     }
-    //changelog.writeData("Employee Management has been created");
+    
 
     try {
       customerManagement = new CustomerManagement(dCustomers);
@@ -91,7 +106,7 @@ public class CUI {
 
       e.printStackTrace();
     }
-    //changelog.writeData("Customer Management has been created");
+   
 
     logmanager = new ChangelogManager();
 
@@ -119,8 +134,12 @@ public class CUI {
 
   }
 
+  /**
+   * Description: reads the console entries
+   * @return input
+   */
   public String readEntry() {
-    // read the console entries
+   
     String input = "";
     Scanner sc = new Scanner(System.in);
     input = sc.nextLine();
@@ -140,7 +159,9 @@ public class CUI {
     }
     return input;
   }
-
+  /**
+   *starts cui
+   */
   public void run() {
     // Variable for inputs from the console
     String input = "";
@@ -152,7 +173,10 @@ public class CUI {
 
   }
 
-  //Startmenu
+
+  /**
+   *Description: First Menu(Login or Register)
+   */
   public void getMenu() {
     String input = "";
     System.out.println("");
@@ -174,7 +198,9 @@ public class CUI {
       getMenu();
     }
   }
-
+/**
+ *Description: Menu for employees
+ */
   public void employeeMenu() {
     String input = "";
     String itemName = "";
@@ -206,19 +232,19 @@ public class CUI {
     System.out.println("5. Sort Items by Name: '5': ");
     System.out.println("6. Sort Items by number: '6': ");
     System.out.println("7. Change Amount of Item: '7'  ");
-    System.out.println("8. Create new employee: '9': ");
-    System.out.println("9. Show all employees: '10': ");
-    System.out.println("10. Delete an employee: '11': ");
-    System.out.println("11. Search an employee by Nr: '12': ");
-    System.out.println("12. Search an employee by Name: '13': ");
-    System.out.println("13. Create a customer: '14': ");
-    System.out.println("14. Delete a customer: '15': ");
-    System.out.println("15. Show all customers: '16': ");
-    System.out.println("16. Search a customer by Nr: '17': ");
-    System.out.println("17. Search a customer by Name: '18': ");
-    System.out.println("18. Logout: '21': ");
-    System.out.println("19. Output ChangeLog: '22': ");
-    System.out.println("20. Sort by Date: '23': ");
+    System.out.println("8. Create new employee: '8': ");
+    System.out.println("9. Show all employees: '9': ");
+    System.out.println("10. Delete an employee: '10': ");
+    System.out.println("11. Search an employee by Nr: '11': ");
+    System.out.println("12. Search an employee by Name: '12': ");
+    System.out.println("13. Create a customer: '13': ");
+    System.out.println("14. Delete a customer: '14': ");
+    System.out.println("15. Show all customers: '15': ");
+    System.out.println("16. Search a customer by Nr: '16': ");
+    System.out.println("17. Search a customer by Name: '17': ");
+    System.out.println("18. Logout: '18': ");
+    System.out.println("19. Output ChangeLog: '19': ");
+    System.out.println("20. Sort by Date: '20': ");
     System.out.println("-----------------------------------------------");
     System.out.println("");
     System.out.print(">>");
@@ -233,7 +259,7 @@ public class CUI {
       employeeMenu();
       break;
 
-    case "2": //add an Item
+    case "2": //add an Item 
 
       System.out.println("");
       System.out.println("Please enter the item name: ");
@@ -242,25 +268,24 @@ public class CUI {
       itemName = readEntry();
 
       System.out.println("");
-      System.out.println("Please enter the item number: ");
       System.out.println("");
-      System.out.print(">>");
-      itemNumber = readEntry();
-      iNum = Integer.parseInt(itemNumber);
-      for (Item i: storage.getAllItems()) { // goes through all items
-        while (i.getNumber() == iNum) { // if the item number already exists
-          System.out.println("The item number already exists!"); //error message
-          System.out.println("try again...");
-          itemNumber = readEntry();
-          iNum = Integer.parseInt(itemNumber);
-        }
-      }
+      iNum = newNumberItem(storage.getAllItems());
+      System.out.println("New item gets the number : " + iNum);
+      System.out.println("");
+     
+      
+      
+      
+      
 
       System.out.println("");
       System.out.println("Please enter the price of the item : ");
       System.out.println("");
       System.out.print(">>");
       itemPrice = readEntry();
+      if(itemPrice.isEmpty()) {
+          break;
+          }
       iPri = Double.parseDouble(itemPrice);
 
       System.out.println("");
@@ -268,13 +293,20 @@ public class CUI {
       System.out.println("");
       System.out.print(">>");
       itemStock = readEntry();
+      if(itemStock.isEmpty()) {
+       break;
+       }
       iSto = Integer.parseInt(itemStock);
+      
 
       System.out.println("");
       System.out.println("Please enter the minimum stock of item : ");
       System.out.println("");
       System.out.print(">>");
       itemMinimumStock = readEntry();
+      if(itemMinimumStock.isEmpty()) {
+       break;
+       }
       iMin = Integer.parseInt(itemMinimumStock);
 
       System.out.println("");
@@ -282,37 +314,44 @@ public class CUI {
       System.out.println("");
       System.out.print(">>");
       itemBulk = readEntry();
+      if(itemMinimumStock.isEmpty()) {
+       break;
+       }
       iBulk = Integer.parseInt(itemBulk);
 
       System.out.println("");
-      System.out.println("The item has been successfully created.");
-      try {
-        for (Item i: storage.getAllItems()) { // goes through all items
-          if (i.getNumber() == iNum) { // if the item number already exists
-            System.out.println("The item number already exists!"); //error message
-            logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "you tried to insert an existing item!", true));
-            throw new InvalidItemNumberException(); //throw the exception
+      
+     
+     
+      
 
+          
+          if (!itemName.isEmpty() && iNum != 0 ) { // if all fields are filled correctly
+            storage.addAnItem(itemName, iNum, iPri, iSto, iMin, iBulk); // add new item to the Storage
+            logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "The Item: " + itemName + "with Nr "+iNum+ " has been succesfully added.", true));
+              //throw the exception
           }
-        }
-      } catch (InvalidItemNumberException ex) {
-        System.out.println(ex.getMessage()); // catches the exception and displays it in the console
-      }
-      if (!itemName.isEmpty()) { // if all fields are filled correctly
-        storage.addAnItem(itemName, iNum, iPri, iSto, iMin, iBulk); // add new item to the Storage
-        logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "The Item: " + itemName + " has been added.", true));
-
-        try {
-          storage.writeItems(); // saves the new stock in the txt file
-        } catch (IOException e1) {
-
-          e1.printStackTrace();
-        }
-        System.out.println("");
-        getItemlist(ilist); //show all items
-        employeeMenu(); // go back to the menu           
-
-      }
+          
+          else {
+        	  logmanager.add(new Changelog(employeeManagement.searchByNumber(currentEmployee).get(0), "You can not add the Item: " + itemName + "with Nr "+iNum+ " ", true));
+          }
+          
+       
+          try {
+              storage.writeItems(); //saves the items in the TXT file
+              logmanager.writeData("log");
+          } catch (IOException e1) {
+              e1.printStackTrace();
+            }
+    
+        
+        
+        
+        
+      
+      
+       
+  
       break;
 
     case "3": //delete Items
@@ -422,7 +461,7 @@ public class CUI {
       employeeMenu();
 
       break;
-
+     
     case "8": //create new employee
       System.out.println("");
       shopEmployeeRegistration();
@@ -474,7 +513,7 @@ public class CUI {
       employeeMenu();
       break;
 
-    case "11": //Search a employee by Nr  
+    case "11": //Search an employee by Nr  
       System.out.println("");
       System.out.println("EmployeeNr:    ");
       eNumber = readEntry();
@@ -501,7 +540,7 @@ public class CUI {
       employeeMenu();
       break;
 
-    case "12": //Search a employee by Name  
+    case "12": //Search an employee by Name  
       System.out.println("");
       System.out.println("Employeename:    ");
       eName = readEntry();
@@ -670,17 +709,20 @@ public class CUI {
 
       employeeMenu();
       break;
-    default:
+      
+      default:
       System.out.println("Incorrect entry!");
 
-      logmanager.add(new Changelog(system, "ncorrect entry in the start menu", true));
+      logmanager.add(new Changelog(system, "ncorrect entry", true));
       System.out.println("Please try again");
       shopLogin();
 
     }
     getMenu();
   }
-
+ /**
+  *Description: Menu for customers
+  */
   public void customerMenu() {
     String input = "";
     String itemName = "";
@@ -1085,7 +1127,7 @@ public class CUI {
       customerMenu();
     }
   }
-
+  
   public void shopLogin() {
     String input = "";
     System.out.println("");
@@ -1110,7 +1152,9 @@ public class CUI {
     }
     getMenu();
   }
-
+  /**
+   *Description: Login for Employees
+   */
   public void shopLoginEmployee() {
     String username = "";
     String password = "";
@@ -1152,7 +1196,9 @@ public class CUI {
     }
 
   }
-
+  /**
+   *Login for customer
+   */
   public void shopLoginCustomer() {
     String username = "";
     String password = "";
@@ -1344,160 +1390,10 @@ public class CUI {
 
   }
 
-  // automatic number assignment
-
-  public int newNumberCustomer(List < Customer > list) {
-    // outputs the highest customer number, it compares all customers in the list with getCustomerNr
-    Customer maxByNumber = list.stream().max(Comparator.comparing(Customer::getCustomerNr)).orElseThrow(NoSuchElementException::new);
-    // the highest customer number 
-    int newNumber = maxByNumber.getCustomerNr() + 1;
-    // returns the new number
-    return newNumber;
-  }
-
-  public int newNumberEmployee(List < Employee > liste) {
-    Employee maxByNumber = liste.stream().max(Comparator.comparing(Employee::getEmployeeNr)).orElseThrow(NoSuchElementException::new);
-    int newNumber = maxByNumber.getEmployeeNr() + 1;
-    return newNumber;
-  }
-
-  private static void getEmployeelist(List < Employee > elist) {
-
-    elist = employeeManagement.getAllEmployees();
-    if (elist.isEmpty()) {
-      System.out.println("List is empty.");
-    } else {
-      for (Employee e: elist) {
-        System.out.println(e);
-      }
-    }
-  }
-
-  private static void getCustomerlist(List < Customer > clist) {
-
-    clist = customerManagement.getAllCustomers();
-    if (clist.isEmpty()) {
-      System.out.println("List is empty.");
-    } else {
-      for (Customer c: clist) {
-        System.out.println(c);
-      }
-    }
-  }
-
-  private static void getItemlist(List < Item > ilist) {
-
-    ilist = storage.getAllItems();
-    if (ilist.isEmpty()) {
-      System.out.println("List is empty.");
-    } else {
-      for (Item i: ilist) {
-        System.out.println(i);
-      }
-    }
-
-  }
-
-  private static void getClog(List < Changelog > chlist) {
-    chlist = logmanager.getChangelog();
-    if (chlist.isEmpty()) {
-      System.out.println("List is empty");
-
-    } else {
-      for (Changelog i: chlist) {
-        System.out.println(i);
-      }
-    }
-  }
-
-  //private static void getCart() {
-  //List<cartItem> cartList = cart.getCart();
-  //if(cartList.isEmpty()) {
-  //System.out.println("Cart is empty!");
-  //}else {
-
-  //for(cartItem ci : cartList) {
-  //System.out.println(ci);
-  //}
-  //}
-  //}
-
-  private static void sortNameItemList(List < Item > list) {
-    if (list.isEmpty()) {
-      System.out.println("Liste is empty.");
-    } else {
-
-      Collections.sort(list, new Comparator < Item > () {
-        @Override
-        public int compare(Item u1, Item u2) {
-          return u1.getName().compareTo(u2.getName());
-        }
-      });
-
-    }
-    for (Item i: list) {
-      System.out.println(i);
-    }
-  }
-
-  private static void sortNumberItemList(List < Item > list) {
-    if (list.isEmpty()) {
-      System.out.println("List is empty.");
-    } else {
-
-      Collections.sort(list, new Comparator < Item > () {
-        @Override
-        public int compare(Item u1, Item u2) {
-
-          int x = Integer.compare(u1.getNumber(), u2.getNumber());
-
-          return x;
-        }
-      });
-
-    }
-    for (Item i: list) {
-      System.out.println(i);
-    }
-  }
-
-  //	private static void getAllEmployees(List<Employee> list) {
-  //		if (list.isEmpty()) {
-  //			System.out.println("List is empty.");
-  //		} else {
-  //			for (Employee e : list) {
-  //				System.out.println(e);
-  //			}
-  //		}
-  //	}
-  //
-  //	private static void getAllCustomers(List<Customer> list) {
-  //		if (list.isEmpty()) {
-  //			System.out.println("List is empty.");
-  //		} else {
-  //			for (Customer c : list) {
-  //				System.out.println(c);
-  //			}
-  //		}
-  //	}
-
-  private static void getLog() {
-
-    try {
-      logmanager.readData("Log");
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    if (log.isEmpty()) {
-      System.out.println("List is empty.");
-    } else {
-      for (String l: log) {
-        System.out.println(l);
-      }
-    }
-  }
-
+  
+  
+  
+  //main
   public static void main(String[] args) {
 
     CUI cui;
@@ -1508,7 +1404,65 @@ public class CUI {
 
   }
 
-  //--------------------------------------------------Check Methods---------------------------------------------------------
+  
+  
+ //-------------------------------------------Number Assignment Functions-----------------------------------------------------------------  
+  
+  
+  
+ /**
+  * Description: Automatic number assignment for customer, looks all numbers,compare them and gives the next higher number
+  * @param list
+  * @return
+  */
+ public int newNumberCustomer(List < Customer > list) {
+   // it compares all customers in the list with getCustomerNr
+   Customer maxByNumber = list.stream().max(Comparator.comparing(Customer::getCustomerNr)).orElseThrow(NoSuchElementException::new);
+   // the highest customer number 
+   int newNumber = maxByNumber.getCustomerNr() + 1;
+   // returns the new number
+   return newNumber;
+ }
+ /**
+  * Description: Automatic number assignment for employees looks all numbers, compare them and gives the next higher number
+  * @param liste
+  * @return
+  */
+ public int newNumberEmployee(List < Employee > list) {
+   //it compares all customers in the list with getCustomerNr
+   Employee maxByNumber = list.stream().max(Comparator.comparing(Employee::getEmployeeNr)).orElseThrow(NoSuchElementException::new);
+   // the highest customer number 
+   int newNumber = maxByNumber.getEmployeeNr() + 1;
+   // returns the new number
+   return newNumber;
+ }  
+  
+  
+ /** 
+  * Description:
+  * @param list
+  * @return Automatic number assignment for items, looks all numbers,compare them and gives the next higher number
+  */
+ public int newNumberItem(List <Item> list) {
+ //outputs the highest item number, i	 
+ Item maxByNumber = list.stream().max(Comparator.comparing(Item::getNumber)).orElseThrow(NoSuchElementException:: new);
+ //the highest customer number 
+ int newNumber = maxByNumber.getNumber() +1;
+ //returns the new number
+ return newNumber;
+	 
+	 
+ }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  //--------------------------------------------------Check Functions---------------------------------------------------------
 
   /**
    * @return true: Item for the number has been found. false: no item has been found and Exception is thrown
@@ -1773,10 +1727,185 @@ public class CUI {
     return x;
   }
 
+  
+  
+  
+ //---------------------------------------------------Sort Functions-------------------------------------------------------------------
+  
+  
   /**
-   *calculates the total price of items in Cart
+   * Description: Sorts item by name and outputs them in the console.
+   * @param list
+   */
+  private static void sortNameItemList(List < Item > list) {
+    if (list.isEmpty()) {
+      System.out.println("Liste is empty.");
+    } else {
+
+      Collections.sort(list, new Comparator < Item > () {
+        @Override
+        public int compare(Item u1, Item u2) {
+          return u1.getName().compareTo(u2.getName());
+        }
+      });
+
+    }
+    for (Item i: list) {
+      System.out.println(i);
+    }
+  } 
+  
+  
+  /**
+   * Description: sorts items by Nr and outputs them in the Console
+   * @param list
+   */
+   private static void sortNumberItemList(List < Item > list) {
+     if (list.isEmpty()) {
+       System.out.println("List is empty.");
+     } else {
+
+       Collections.sort(list, new Comparator < Item > () {
+         @Override
+         public int compare(Item u1, Item u2) {
+
+           int x = Integer.compare(u1.getNumber(), u2.getNumber());
+
+           return x;
+         }
+       });
+
+     }
+     for (Item i: list) {
+       System.out.println(i);
+     }
+   } 
+  
+  
+  
+   /**
+    * Description: sorts changelogs by date and returns them
+    * @param liste
+    * @return
+    */
+    private List < Changelog > sortDateChangelogliste(List < Changelog > liste) {
+      if (liste.isEmpty()) {
+        System.out.println("List is empty .");
+      } else {
+
+        Collections.sort(liste, new Comparator < Changelog > () {
+          @Override
+          public int compare(Changelog u1, Changelog u2) {
+            return u1.getTime().compareTo(u2.getTime());
+          }
+        });
+
+      }
+      return liste;
+
+    }
+  
+  
+  
+  
+  
+ 
+  
+  
+  
+  
+  //----------------------------------------------------Get Functions-------------------------------------------------------------------  
+  
+  
+    /**
+     * Description: Outputs the list of Employees in the console
+     * @param elist
+     */
+    private static void getEmployeelist(List < Employee > elist) {
+
+      elist = employeeManagement.getAllEmployees();
+      if (elist.isEmpty()) {
+        System.out.println("List is empty.");
+      } else {
+        for (Employee e: elist) {
+          System.out.println(e);
+        }
+      }
+    }
+    
+    /**
+     * Description: Outputs the list of Customer in the console
+     * @param clist
+     */
+    private static void getCustomerlist(List < Customer > clist) {
+
+      clist = customerManagement.getAllCustomers();
+      if (clist.isEmpty()) {
+        System.out.println("List is empty.");
+      } else {
+        for (Customer c: clist) {
+          System.out.println(c);
+        }
+      }
+    }
+   /**
+    * Description: Outputs the list of Items in the console
+    * @param ilist
+    */
+    private static void getItemlist(List < Item > ilist) {
+
+      ilist = storage.getAllItems();
+      if (ilist.isEmpty()) {
+        System.out.println("List is empty.");
+      } else {
+        for (Item i: ilist) {
+          System.out.println(i);
+        }
+      }
+
+    }
+   /**
+    * Description: Outputs the list of changelogs in the console
+    * @param chlist
+    */
+    private static void getClog(List < Changelog > chlist) {
+      chlist = logmanager.getChangelog();
+      if (chlist.isEmpty()) {
+        System.out.println("List is empty");
+
+      } else {
+        for (Changelog i: chlist) {
+          System.out.println(i);
+        }
+      }
+    } 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+  /**
+   * Description: calculates the total price of items in Cart and returns it
    *   
-   *@return dummy   
+   * @return dummy   
    */
   private double cartGetTotalprice() {
     double totalprice;
@@ -1791,7 +1920,11 @@ public class CUI {
 
     return dummy;
   }
-
+ 
+  /**
+   * Description: outputs purchased items with their prices and quantities in the console  for  bill
+   * 
+   */
   private boolean billGetItems() {
 
     List < cartItem > cartList = cart.getCart();
@@ -1817,6 +1950,53 @@ public class CUI {
 
   }
 
+  
+  /**
+   *Description: Logmanager reads Changelog from Log file
+   */
+  private static void getLog() {
+
+	    try {
+	      logmanager.readData("Log");
+	    } catch (IOException e) {
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	    }
+	    if (log.isEmpty()) {
+	      System.out.println("List is empty.");
+	    } else {
+	      for (String l: log) {
+	        System.out.println(l);
+	      }
+	    }
+	  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /**
+   * Description: returns all changelogs
+   * @param l
+   */
   private void getChangelogtable(List < Changelog > l) {
 
     for (int i = 0; i < l.size(); i++) {
@@ -1860,22 +2040,8 @@ public class CUI {
     }
 
   }
-
-  private List < Changelog > sortDateChangelogliste(List < Changelog > liste) {
-    if (liste.isEmpty()) {
-      System.out.println("List is empty .");
-    } else {
-
-      Collections.sort(liste, new Comparator < Changelog > () {
-        @Override
-        public int compare(Changelog u1, Changelog u2) {
-          return u1.getTime().compareTo(u2.getTime());
-        }
-      });
-
-    }
-    return liste;
-
-  }
+ 
+  
+  
 
 }
