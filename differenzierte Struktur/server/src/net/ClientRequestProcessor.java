@@ -2,6 +2,9 @@ package net;
 
 import java.io.IOException;
 import java.util.*;
+
+import exceptions.InvalidNameChangelogException;
+import exceptions.InvalidNumberChangelogException;
 import valueObjects.*;
 
 public class ClientRequestProcessor {
@@ -13,7 +16,7 @@ public class ClientRequestProcessor {
 		 eshop = new domain.Eshop();
 	 }
 	 
-	 public static void main(String args[]) throws IOException, NumberFormatException, ClassNotFoundException {
+	 public static void main(String args[]) throws IOException, NumberFormatException, ClassNotFoundException, InvalidNameChangelogException, InvalidNumberChangelogException {
 		 ClientRequestProcessor crp = new ClientRequestProcessor();
 		 
 		 while(true) {
